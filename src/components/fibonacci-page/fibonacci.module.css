@@ -10,16 +10,12 @@
 	column-gap: 12px;
 }
 
-.input {
+.formInput {
 	max-width: 377px;
 }
 
-.button {
-	min-width: 178px;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
 	-webkit-appearance: none;
 }
 
@@ -33,3 +29,6 @@ input::-webkit-inner-spin-button {
 	row-gap: 48px;
 }
 
+.btn {
+	min-width: 178px;
+}

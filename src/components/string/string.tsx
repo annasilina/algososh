@@ -1,9 +1,9 @@
 import React, {ChangeEvent, FormEvent, useState} from "react";
 import {SolutionLayout} from "../ui/solution-layout/solution-layout";
 import {Input} from "../ui/input/input";
-import styles from "./string.module.css";
 import {Button} from "../ui/button/button";
 import {Circle} from "../ui/circle/circle";
+import styles from "./string.module.css";
 import {ElementStates} from "../../types/element-states";
 import {delay} from "../../utils/delay";
 import {swap} from "../../utils/swap";
@@ -22,7 +22,10 @@ export const StringComponent: React.FC = () => {
     setSortedIndexes([]);
     setNextIndexes([]);
     setArrFromString(originalString.split(''));
-    reversString(originalString).then(() =>  form.reset());
+    reversString(originalString).then(() => {
+      form.reset();
+      setOriginalString('');
+    });
   }
 
   const handlerInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +39,7 @@ export const StringComponent: React.FC = () => {
     let end = reversedArr.length - 1;
     while (start <= end) {
       setNextIndexes([start, end]);
-      await delay(1000);
+      await delay(800);
       swap(reversedArr, start, end);
       setArrFromString(reversedArr);
       sorted.push(start, end);
@@ -54,25 +57,24 @@ export const StringComponent: React.FC = () => {
           placeholder='Введите текст'
           maxLength={11}
           isLimitText={true}
-          extraClass={styles.input}
+          extraClass={styles.formInput}
           onChange={handlerInputChange}
           disabled={isReversing}
         />
         <Button
           text='Развернуть'
           type='submit'
-          disabled={isReversing}
+          disabled={originalString === ''}
           isLoader={isReversing}
-          extraClass={styles.button}
+          extraClass={styles.btn}
         >
         </Button>
       </form>
       <section className={`${styles.circles}`}>
         {arrFromString.map((item, index) => (
           <Circle
-            letter={item}
             key={index}
-            extraClass={styles.circle}
+            letter={item}
             state={
               sortedIndexes.includes(index)
                 ? ElementStates.Modified
