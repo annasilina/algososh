@@ -16,14 +16,13 @@ export const StringComponent: React.FC = () => {
   const [isReversing, setIsReversing] = useState<boolean>(false);
 
   const handlerFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    const form = evt.target as HTMLFormElement;
     evt.preventDefault();
     setIsReversing(true);
-    const form = evt.target as HTMLFormElement;
-    form.reset();
     setSortedIndexes([]);
     setNextIndexes([]);
     setArrFromString(originalString.split(''));
-    reversString(originalString).then();
+    reversString(originalString).then(() =>  form.reset());
   }
 
   const handlerInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -57,11 +56,14 @@ export const StringComponent: React.FC = () => {
           isLimitText={true}
           extraClass={styles.input}
           onChange={handlerInputChange}
+          disabled={isReversing}
         />
         <Button
           text='Развернуть'
           type='submit'
           disabled={isReversing}
+          isLoader={isReversing}
+          extraClass={styles.button}
         >
         </Button>
       </form>
