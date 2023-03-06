@@ -5,43 +5,38 @@ import {Button} from "../ui/button/button";
 import {Circle} from "../ui/circle/circle";
 import styles from "./fibonacci.module.css"
 import {delay} from "../../utils/delay";
+import {fibCalculate} from "../../utils/fibCalculate";
+import {SHORT_DELAY_IN_MS} from "../../constants/delays";
 
 export const FibonacciPage: React.FC = () => {
   const [isCalculating, setIsCalculating] = useState<boolean>(false);
-  const [value, setValue] = useState<number | ''>('');
+  const [value, setValue] = useState<string>('');
   const [arrResult, setArrResult] = useState<number[]>([]);
 
   const handlerFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
-    const form = evt.target as HTMLFormElement;
     evt.preventDefault();
     setIsCalculating(true);
-    if (value) {
-      fibCalculate(value).then(() => {
-        form.reset();
-        setValue('');
-      });
-    }
+    fibVisualization(value)
+      .then(() => {
+        setIsCalculating(false)
+      })
   }
 
   const handlerInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setValue(Number(evt.target.value));
+    setValue(evt.target.value);
   }
 
-  const fibCalculate = async (value: number) => {
-    let arr: number[] = [0, 1];
-    if (value === 0) {
+  const fibVisualization = async (value: string) => {
+    const valueNumber = Number(value);
+    if (valueNumber === 0) {
       setArrResult([0]);
       setIsCalculating(false);
     } else {
-      setArrResult([0]);
-      await delay(500);
-      setArrResult([...arr]);
-      for (let i = 2; i < value + 1; i++) {
-        arr.push(arr[i - 2] + arr[i - 1]);
-        await delay(500);
-        setArrResult([...arr]);
+      const elements = fibCalculate(valueNumber);
+      for (let i = 0; i < elements.length; i++) {
+        await delay(SHORT_DELAY_IN_MS);
+        setArrResult(elements.slice(0, i + 1));
       }
-      setIsCalculating(false);
     }
   }
 
@@ -49,33 +44,33 @@ export const FibonacciPage: React.FC = () => {
     <SolutionLayout title="Последовательность Фибоначчи">
       <section className={styles.container}>
         <form className={`${styles.form}`} onSubmit={handlerFormSubmit}>
-        <Input
-          placeholder='Введите число'
-          type='number'
-          max={19}
-          isLimitText={true}
-          onChange={handlerInputChange}
-          extraClass={styles.formInput}
-          disabled={isCalculating}
-        />
-        <Button
-          text={'Раcсчитать'}
-          type='submit'
-          disabled={value < 0 || value > 19 || value === ''}
-          isLoader={isCalculating}
-          extraClass={styles.btn}
-        >
-        </Button>
+          <Input
+            placeholder='Введите число'
+            type='number'
+            max={19}
+            isLimitText={true}
+            onChange={handlerInputChange}
+            extraClass={styles.formInput}
+            disabled={isCalculating}
+          />
+          <Button
+            text={'Раcсчитать'}
+            type='submit'
+            disabled={Number(value) < 0 || Number(value) > 19 || value === ''}
+            isLoader={isCalculating}
+            extraClass={styles.btn}
+          >
+          </Button>
       </form>
-        <section className={`${styles.circles}`}>
+        <ul className={`${styles.circles}`}>
           {arrResult.map((item, index) => (
-            <Circle
-              key={index}
-              letter={String(item)}
-              tail={String(index)}
-            />
+            <li key={index}>
+              <Circle
+                letter={String(item)} tail={String(index)}
+              />
+            </li>
           ))}
-        </section>
+        </ul>
       </section>
     </SolutionLayout>
   );

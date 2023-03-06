@@ -7,6 +7,7 @@ import styles from "./string.module.css";
 import {ElementStates} from "../../types/element-states";
 import {delay} from "../../utils/delay";
 import {swap} from "../../utils/swap";
+import {DELAY_IN_MS} from "../../constants/delays";
 
 export const StringComponent: React.FC = () => {
   const [originalString, setOriginalString] = useState<string>('');
@@ -39,7 +40,7 @@ export const StringComponent: React.FC = () => {
     let end = reversedArr.length - 1;
     while (start <= end) {
       setNextIndexes([start, end]);
-      await delay(800);
+      await delay(DELAY_IN_MS);
       swap(reversedArr, start, end);
       setArrFromString(reversedArr);
       sorted.push(start, end);
@@ -70,21 +71,22 @@ export const StringComponent: React.FC = () => {
         >
         </Button>
       </form>
-      <section className={`${styles.circles}`}>
+      <ul className={`${styles.circles}`}>
         {arrFromString.map((item, index) => (
-          <Circle
-            key={index}
-            letter={item}
-            state={
-              sortedIndexes.includes(index)
-                ? ElementStates.Modified
-                : nextIndexes.includes(index)
-                  ? ElementStates.Changing
-                  : ElementStates.Default
-            }
-          />
+          <li key={index}>
+            <Circle
+              letter={item}
+              state={
+                sortedIndexes.includes(index)
+                  ? ElementStates.Modified
+                  : nextIndexes.includes(index)
+                    ? ElementStates.Changing
+                    : ElementStates.Default
+              }
+            />
+          </li>
         ))}
-      </section>
+      </ul>
 
     </SolutionLayout>
   );
