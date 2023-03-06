@@ -38,6 +38,7 @@ export const StackPage: React.FC = () => {
   }
 
   const handleDeleteButton = async () => {
+    setIsLoading(true);
     if (stack.peak) {
       stack.peak.state = ElementStates.Changing;
     }
@@ -69,30 +70,29 @@ export const StackPage: React.FC = () => {
           <Button
             text='Добавить'
             extraClass={styles.btn}
-            disabled={!inputValue}
-            isLoader={isLoading}
+            disabled={isLoading || !inputValue}
             type='button'
             onClick={() =>
               handleAddButton()
                 .then(() => {
                   setIsLoading(false);
                   clearInput('input', setInputValue);
-            })}
+                })}
           ></Button>
           <Button
             text='Удалить'
             extraClass={styles.btn}
-            disabled={!stackArray.length}
-            isLoader={isLoading}
+            disabled={isLoading || !stackArray.length}
             type='button'
-            onClick={() => handleDeleteButton().then(() => setIsLoading(false))}
+            onClick={() =>
+              handleDeleteButton()
+                .then(() => setIsLoading(false))}
           ></Button>
         </div>
         <Button
           text='Очистить'
           extraClass={styles.btn}
-          disabled={!stackArray.length}
-          isLoader={isLoading}
+          disabled={isLoading || !stackArray.length}
           type='button'
           onClick={handleClearButton}
         ></Button>
