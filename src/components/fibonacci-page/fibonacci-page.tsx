@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FormEvent, useState} from "react";
+import React, {ChangeEvent, useState} from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import {Input} from "../ui/input/input";
 import {Button} from "../ui/button/button";
@@ -7,23 +7,24 @@ import styles from "./fibonacci.module.css"
 import {delay} from "../../utils/delay";
 import {fibCalculate} from "../../utils/fibCalculate";
 import {SHORT_DELAY_IN_MS} from "../../constants/delays";
+import {clearInput} from "../../utils/clearInput";
 
 export const FibonacciPage: React.FC = () => {
   const [isCalculating, setIsCalculating] = useState<boolean>(false);
-  const [value, setValue] = useState<string>('');
+  const [inputValue, setInputValue] = useState<string>('');
   const [arrResult, setArrResult] = useState<number[]>([]);
 
-  const handlerFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
+  const handleButtonClick = () => {
     setIsCalculating(true);
-    fibVisualization(value)
+    fibVisualization(inputValue)
       .then(() => {
-        setIsCalculating(false)
+        setIsCalculating(false);
+        clearInput('input', setInputValue)
       })
   }
 
   const handlerInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setValue(evt.target.value);
+    setInputValue(evt.target.value);
   }
 
   const fibVisualization = async (value: string) => {
@@ -43,25 +44,27 @@ export const FibonacciPage: React.FC = () => {
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
       <section className={styles.container}>
-        <form className={`${styles.form}`} onSubmit={handlerFormSubmit}>
+        <section className={`${styles.inputSection}`}>
           <Input
             placeholder='Введите число'
             type='number'
             max={19}
             isLimitText={true}
             onChange={handlerInputChange}
-            extraClass={styles.formInput}
+            extraClass={styles.input}
             disabled={isCalculating}
+            id='input'
           />
           <Button
             text={'Раcсчитать'}
             type='submit'
-            disabled={Number(value) < 0 || Number(value) > 19 || value === ''}
+            disabled={Number(inputValue) < 0 || Number(inputValue) > 19 || inputValue === ''}
             isLoader={isCalculating}
             extraClass={styles.btn}
+            onClick={handleButtonClick}
           >
           </Button>
-      </form>
+      </section>
         <ul className={`${styles.circles}`}>
           {arrResult.map((item, index) => (
             <li key={index}>

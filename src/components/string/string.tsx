@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FormEvent, useState} from "react";
+import React, {ChangeEvent, useState} from "react";
 import {SolutionLayout} from "../ui/solution-layout/solution-layout";
 import {Input} from "../ui/input/input";
 import {Button} from "../ui/button/button";
@@ -8,6 +8,7 @@ import {ElementStates} from "../../types/element-states";
 import {delay} from "../../utils/delay";
 import {swap} from "../../utils/swap";
 import {DELAY_IN_MS} from "../../constants/delays";
+import {clearInput} from "../../utils/clearInput";
 
 export const StringComponent: React.FC = () => {
   const [originalString, setOriginalString] = useState<string>('');
@@ -16,16 +17,14 @@ export const StringComponent: React.FC = () => {
   const [nextIndexes, setNextIndexes] = useState<number[]>([]);
   const [isReversing, setIsReversing] = useState<boolean>(false);
 
-  const handlerFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
-    const form = evt.target as HTMLFormElement;
-    evt.preventDefault();
+  const handleButtonClick = () => {
     setIsReversing(true);
     setSortedIndexes([]);
     setNextIndexes([]);
     setArrFromString(originalString.split(''));
     reversString(originalString).then(() => {
-      form.reset();
-      setOriginalString('');
+      clearInput('input', setOriginalString);
+      setIsReversing(false);
     });
   }
 
@@ -48,19 +47,34 @@ export const StringComponent: React.FC = () => {
       start++;
       end--;
     }
-    setIsReversing(false)
   }
+
+  // useEffect(() => {
+  //   const input = document.getElementById('input');
+  //   const btn = document.getElementById('reverse-btn') as HTMLButtonElement;
+  //
+  //   const handleEnterClick = (e: KeyboardEvent) => {
+  //     e.code === 'Enter' && btn.click();
+  //   }
+  //
+  //   input?.addEventListener('keyup', handleEnterClick)
+  //
+  //   return () => {
+  //     input?.removeEventListener('keyup', handleEnterClick);
+  //   }
+  // })
 
   return (
     <SolutionLayout title="Строка">
-      <form className={`${styles.form}`} onSubmit={handlerFormSubmit}>
+      <section className={styles.inputSection} >
         <Input
           placeholder='Введите текст'
           maxLength={11}
           isLimitText={true}
-          extraClass={styles.formInput}
+          extraClass={styles.input}
           onChange={handlerInputChange}
           disabled={isReversing}
+          id='input'
         />
         <Button
           text='Развернуть'
@@ -68,9 +82,11 @@ export const StringComponent: React.FC = () => {
           disabled={originalString === ''}
           isLoader={isReversing}
           extraClass={styles.btn}
+          onClick={handleButtonClick}
+          id='reverse-btn'
         >
         </Button>
-      </form>
+      </section>
       <ul className={`${styles.circles}`}>
         {arrFromString.map((item, index) => (
           <li key={index}>

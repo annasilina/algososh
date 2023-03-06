@@ -4,13 +4,13 @@
 	gap: 48px;
 }
 
-.form {
+.inputSection {
 	display: flex;
 	justify-content: center;
 	column-gap: 12px;
 }
 
-.formInput {
+.input {
 	max-width: 377px;
 }
 

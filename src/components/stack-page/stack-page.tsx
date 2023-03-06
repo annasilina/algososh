@@ -9,6 +9,7 @@ import {Stack} from "./Stack";
 import {ElementStates} from "../../types/element-states";
 import {delay} from "../../utils/delay";
 import {SHORT_DELAY_IN_MS} from "../../constants/delays";
+import {clearInput} from "../../utils/clearInput";
 
 type TStackItem = {
   value: string,
@@ -21,12 +22,6 @@ export const StackPage: React.FC = () => {
   const [stackArray, setStackArray] = useState<TStackItem[]>([]);
   const [stack] = useState(new Stack<TStackItem>());
 
-  const clearInput = () => {
-    setInputValue('');
-    const getInput = document.getElementById('input') as HTMLInputElement;
-    getInput.value = '';
-  }
-
   const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setInputValue(evt.target.value);
   }
@@ -35,7 +30,6 @@ export const StackPage: React.FC = () => {
     setIsLoading(true);
     stack.push({value: inputValue, state: ElementStates.Changing});
     setStackArray([...stack.getElements()]);
-    clearInput();
     await delay(SHORT_DELAY_IN_MS);
     if (stack.peak) {
       stack.peak.state = ElementStates.Default;
@@ -78,7 +72,12 @@ export const StackPage: React.FC = () => {
             disabled={!inputValue}
             isLoader={isLoading}
             type='button'
-            onClick={() => handleAddButton().then(() => setIsLoading(false))}
+            onClick={() =>
+              handleAddButton()
+                .then(() => {
+                  setIsLoading(false);
+                  clearInput('input', setInputValue);
+            })}
           ></Button>
           <Button
             text='Удалить'
