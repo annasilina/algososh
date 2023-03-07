@@ -4,7 +4,7 @@ export interface IQueue<T> {
 	getHead: () => number;
 	getTail: () => number;
 	getSize: () => number;
-	getElements: () => (T | null)[] ;
+	getElements: () => (T | null)[];
 	clear: () => void;
 }
 
@@ -27,8 +27,6 @@ export class Queue<T> implements IQueue<T> {
 
 		if (this.tail >= this.size) {
 			throw new Error('Maximum queue size exceeded');
-			// this.tail = 0;
-			// this.container[this.tail] = item;
 		}
 
 		this.container[this.tail] = item;
@@ -38,20 +36,12 @@ export class Queue<T> implements IQueue<T> {
 
 	dequeue = () => {
 		if (this.isEmpty()) {
-			//throw new Error('No elements in the queue');
 			this.clear();
 		}
 
 		this.container[this.head] = null;
 		this.head++;
 		this.length--;
-	}
-
-	get peak(): T | null {
-		if (this.isEmpty()) {
-			throw new Error('No elements in the queue');
-		}
-		return this.container[this.head % this.size];
 	}
 
 	getElements = () => [...this.container];

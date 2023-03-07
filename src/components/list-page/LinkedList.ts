@@ -8,6 +8,7 @@ export type TListItem<T> = {
 export class Node<T> {
 	value: T
 	next: Node<T> | null
+
 	constructor(value: T, next?: Node<T> | null) {
 		this.value = value;
 		this.next = (next === undefined ? null : next);
@@ -31,6 +32,7 @@ export class LinkedList<T> implements ILinkedList<T> {
 	private head: Node<T> | null;
 	private size: number;
 	private readonly initElements: Array<T> | undefined;
+
 	constructor(initElements?: Array<T>) {
 		this.head = null;
 		this.size = 0;
@@ -38,26 +40,6 @@ export class LinkedList<T> implements ILinkedList<T> {
 		if (this.initElements) {
 			this._getInitElements(this.initElements);
 		}
-	}
-
-	private _getInitElements = (elementsArr: Array<T>) => {
-		elementsArr.forEach(element => this._createInitList(element));
-	}
-
-	private _createInitList = (element: T) => {
-		const node = new Node(element);
-		if (this.head === null) {
-			this.head = node;
-		} else {
-			let curr = this.head;
-
-			while (curr.next) {
-				curr = curr.next;
-			}
-
-			curr.next = node;
-		}
-		this.size++;
 	}
 
 	append = (element: T) => {
@@ -79,12 +61,12 @@ export class LinkedList<T> implements ILinkedList<T> {
 	prepend = (element: T) => {
 		const node = new Node(element);
 
-		 if (this.head === null) {
-			 this.head = node;
-		 } else {
-			 node.next = this.head;
-			 this.head = node;
-		 }
+		if (this.head === null) {
+			this.head = node;
+		} else {
+			node.next = this.head;
+			this.head = node;
+		}
 		this.size++;
 	}
 
@@ -184,4 +166,24 @@ export class LinkedList<T> implements ILinkedList<T> {
 	}
 
 	getSize = () => this.size;
+
+	private _getInitElements = (elementsArr: Array<T>) => {
+		elementsArr.forEach(element => this._createInitList(element));
+	}
+
+	private _createInitList = (element: T) => {
+		const node = new Node(element);
+		if (this.head === null) {
+			this.head = node;
+		} else {
+			let curr = this.head;
+
+			while (curr.next) {
+				curr = curr.next;
+			}
+
+			curr.next = node;
+		}
+		this.size++;
+	}
 }

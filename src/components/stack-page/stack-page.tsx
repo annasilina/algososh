@@ -54,7 +54,7 @@ export const StackPage: React.FC = () => {
   }
 
   return (
-    <SolutionLayout title="Стек">
+    <SolutionLayout title='Стек'>
       <section className={styles.container}>
         <div className={styles.inputContainer}>
           <Input
@@ -101,11 +101,11 @@ export const StackPage: React.FC = () => {
         {stackArray && stackArray.map((element, index) => (
           <li key={index}>
             <Circle
-            letter={element.value}
-            head={index === stackArray.length - 1 ? TOP : undefined}
-            index={index}
-            state={element.state}
-          />
+              letter={element.value}
+              head={index === stackArray.length - 1 ? TOP : undefined}
+              index={index}
+              state={element.state}
+            />
           </li>
         ))}
       </ul>

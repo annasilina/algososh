@@ -9,6 +9,13 @@ export interface IStack<T> {
 export class Stack<T> implements IStack<T> {
 	private container: Array<T> = [];
 
+	get peak(): T | null {
+		if (this.container.length) {
+			return this.container[this.container.length - 1]
+		}
+		return null;
+	}
+
 	push = (item: T): void => {
 		this.container.push(item);
 	}
@@ -16,13 +23,6 @@ export class Stack<T> implements IStack<T> {
 	pop = (): void | null => {
 		if (this.container.length !== 0) {
 			this.container.pop();
-		}
-		return null;
-	}
-
-	get peak(): T | null {
-		if (this.container.length) {
-			return this.container[this.container.length - 1]
 		}
 		return null;
 	}

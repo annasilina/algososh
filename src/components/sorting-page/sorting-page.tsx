@@ -19,7 +19,7 @@ export const SortingPage: React.FC = () => {
   const [descending, setDescending] = useState<boolean>(false);
 
   const generateNewArr = () => {
-   setArray([...randomArr()]);
+    setArray([...randomArr()]);
   }
 
   useEffect(() => {
@@ -122,7 +122,7 @@ export const SortingPage: React.FC = () => {
   }
 
   return (
-    <SolutionLayout title="Сортировка массива">
+    <SolutionLayout title='Сортировка массива'>
       <section className={styles.section}>
         <div className={styles.controlsContainer}>
           <div className={styles.inputContainer}>
