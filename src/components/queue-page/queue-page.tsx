@@ -23,9 +23,13 @@ export const QueuePage: React.FC = () => {
 	const [visualArray, setVisualArray] = useState<TQueueItem[]>(emptyQueue);
 	const [inputValue, setInputValue] = useState<string>('');
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [adding, setAdding] = useState<boolean>(false);
+	const [deleting, setDeleting] = useState<boolean>(false);
+	const [clearing, setClearing] = useState<boolean>(false);
 
 	const handleAddButton = async () => {
 		setIsLoading(true);
+		setAdding(true);
 		queue.enqueue({
 			value: inputValue,
 			state: ElementStates.Default,
@@ -42,6 +46,7 @@ export const QueuePage: React.FC = () => {
 
 	const handleDeleteButton = async () => {
 		setIsLoading(true);
+		setDeleting(true);
 		visualArray[queue.getHead()].state = ElementStates.Changing;
 		setVisualArray([...visualArray]);
 		await delay(SHORT_DELAY_IN_MS);
@@ -59,7 +64,10 @@ export const QueuePage: React.FC = () => {
 		}
 	}
 
-	const handleClearButton = () => {
+	const handleClearButton = async () => {
+		setIsLoading(true);
+		setClearing(true);
+		await delay(SHORT_DELAY_IN_MS);
 		queue.clear();
 		setQueue(queue);
 		setVisualArray(emptyQueue);
@@ -75,7 +83,7 @@ export const QueuePage: React.FC = () => {
 				<div className={styles.inputContainer}>
 					<Input
 						placeholder='Введите символы'
-						value=''
+						value={inputValue}
 						type='text'
 						maxLength={4}
 						isLimitText={true}
@@ -87,12 +95,14 @@ export const QueuePage: React.FC = () => {
 					<Button
 						text='Добавить'
 						extraClass={styles.btn}
-						disabled={isLoading || !inputValue || queue.getTail() >= 7}
+						disabled={isLoading || inputValue === '' || queue.getTail() >= 7}
+						isLoader={adding}
 						type='button'
 						onClick={() =>
 							handleAddButton()
 								.then(() => {
 									setIsLoading(false);
+									setAdding(false)
 									clearInput('input', setInputValue);
 								})}
 					></Button>
@@ -100,18 +110,29 @@ export const QueuePage: React.FC = () => {
 						text='Удалить'
 						extraClass={styles.btn}
 						disabled={isLoading || queue.isEmpty()}
+						isLoader={deleting}
 						type='button'
 						onClick={() =>
 							handleDeleteButton()
-								.then(() => setIsLoading(false))}
+								.then(() => {
+									setIsLoading(false);
+									setDeleting(false);
+								})}
 					></Button>
 				</div>
 				<Button
 					text='Очистить'
 					extraClass={styles.btn}
 					disabled={isLoading || queue.isEmpty()}
+					isLoader={clearing}
 					type='button'
-					onClick={handleClearButton}
+					onClick={() => {
+						handleClearButton()
+							.then(() => {
+								setIsLoading(false);
+								setClearing(false);
+							})
+					}}
 				></Button>
 			</section>
 			<ul className={styles.circles}>

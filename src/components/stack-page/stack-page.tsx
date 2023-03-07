@@ -20,6 +20,9 @@ export const StackPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>('')
   const [stackArray, setStackArray] = useState<TStackItem[]>([]);
+  const [adding, setAdding] = useState<boolean>(false);
+  const [deleting, setDeleting] = useState<boolean>(false);
+  const [clearing, setClearing] = useState<boolean>(false);
   const [stack] = useState(new Stack<TStackItem>());
 
   const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -28,6 +31,7 @@ export const StackPage: React.FC = () => {
 
   const handleAddButton = async () => {
     setIsLoading(true);
+    setAdding(true);
     stack.push({value: inputValue, state: ElementStates.Changing});
     setStackArray([...stack.getElements()]);
     await delay(SHORT_DELAY_IN_MS);
@@ -39,6 +43,7 @@ export const StackPage: React.FC = () => {
 
   const handleDeleteButton = async () => {
     setIsLoading(true);
+    setDeleting(true);
     if (stack.peak) {
       stack.peak.state = ElementStates.Changing;
     }
@@ -48,7 +53,10 @@ export const StackPage: React.FC = () => {
     setStackArray([...stack.getElements()]);
   }
 
-  const handleClearButton = () => {
+  const handleClearButton = async () => {
+    setIsLoading(true);
+    setClearing(true);
+    await delay(SHORT_DELAY_IN_MS);
     stack.clear();
     setStackArray([...stack.getElements()]);
   }
@@ -59,7 +67,7 @@ export const StackPage: React.FC = () => {
         <div className={styles.inputContainer}>
           <Input
             placeholder='Введите символы'
-            value=''
+            value={inputValue}
             type='text'
             maxLength={4}
             isLimitText={true}
@@ -71,12 +79,14 @@ export const StackPage: React.FC = () => {
           <Button
             text='Добавить'
             extraClass={styles.btn}
-            disabled={isLoading || !inputValue}
+            disabled={isLoading || inputValue === ''}
+            isLoader={adding}
             type='button'
             onClick={() =>
               handleAddButton()
                 .then(() => {
                   setIsLoading(false);
+                  setAdding(false)
                   clearInput('input', setInputValue);
                 })}
           ></Button>
@@ -84,18 +94,29 @@ export const StackPage: React.FC = () => {
             text='Удалить'
             extraClass={styles.btn}
             disabled={isLoading || !stackArray.length}
+            isLoader={deleting}
             type='button'
             onClick={() =>
               handleDeleteButton()
-                .then(() => setIsLoading(false))}
+                .then(() => {
+                  setIsLoading(false);
+                  setDeleting(false);
+                })}
           ></Button>
         </div>
         <Button
           text='Очистить'
           extraClass={styles.btn}
           disabled={isLoading || !stackArray.length}
+          isLoader={clearing}
           type='button'
-          onClick={handleClearButton}
+          onClick={() => {
+            handleClearButton()
+              .then(() => {
+                setIsLoading(false);
+                setClearing(false);
+              })
+          }}
         ></Button>
       </section>
       <ul className={styles.circles}>
