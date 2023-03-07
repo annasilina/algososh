@@ -180,7 +180,7 @@ export const SortingPage: React.FC = () => {
         </div>
         <ul className={styles.columns}>
           {array.map((item, index) => (
-            <li key={index}>
+            <li key={index} className={styles.column}>
               <Column
                 index={item.value}
                 state={item.state}

@@ -25,7 +25,6 @@ interface ILinkedList<T> {
 	toArray: () => Array<TListItem<T>>;
 	getSize: () => number;
 	clear: () => void;
-	//getHead: () => number;
 }
 
 export class LinkedList<T> implements ILinkedList<T> {
@@ -85,7 +84,9 @@ export class LinkedList<T> implements ILinkedList<T> {
 					let curr = this.head;
 
 					for (let i = 1; i < index; i++) {
-						if (curr.next) curr = curr.next;
+						if (curr.next) {
+							curr = curr.next;
+						}
 					}
 
 					node.next = curr.next;
