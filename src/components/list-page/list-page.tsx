@@ -8,7 +8,7 @@ import {Circle} from "../ui/circle/circle";
 import {ArrowIcon} from "../ui/icons/arrow-icon";
 import {HEAD, TAIL} from "../../constants/element-captions";
 import {delay} from "../../utils/delay";
-import {SHORT_DELAY_IN_MS} from "../../constants/delays";
+import {DELAY_IN_MS, SHORT_DELAY_IN_MS} from "../../constants/delays";
 import {ElementStates} from "../../types/element-states";
 import {clearInput} from "../../utils/clearInput";
 
@@ -44,12 +44,15 @@ export const ListPage: React.FC = () => {
 			clearInput('element-input');
 			setIsAddToHead(true);
 			setIsAllLoading(true);
+
 			await delay(SHORT_DELAY_IN_MS);
 			list.prepend(elementInputValue);
 			const arr = list.toArray();
 			arr[0].state = ElementStates.Modified;
+
 			setIsAddToHead(false);
 			setVisualArr(arr);
+
 			await delay(SHORT_DELAY_IN_MS);
 			arr[0].state = ElementStates.Default;
 			setVisualArr(arr);
@@ -61,12 +64,15 @@ export const ListPage: React.FC = () => {
 			clearInput('element-input');
 			setIsAddToTail(true);
 			setIsAllLoading(true);
+
 			await delay(SHORT_DELAY_IN_MS);
 			list.append(elementInputValue);
 			const arr = list.toArray();
 			arr[arr.length - 1].state = ElementStates.Modified;
+
 			setIsAddToTail(false);
 			setVisualArr(arr);
+
 			await delay(SHORT_DELAY_IN_MS);
 			arr[arr.length - 1].state = ElementStates.Default;
 			setVisualArr(arr);
@@ -76,10 +82,12 @@ export const ListPage: React.FC = () => {
 	const delFromHead = async () => {
 		setIsDelFromHead(true);
 		setIsAllLoading(true);
+
 		const arr = list.toArray();
 		setTempElementValue(arr[0].value);
 		arr[0].value = '';
 		setVisualArr(arr);
+
 		await delay(SHORT_DELAY_IN_MS);
 		list.removeHead();
 		setIsDelFromHead(false);
@@ -89,13 +97,16 @@ export const ListPage: React.FC = () => {
 	const delFromTail = async () => {
 		setIsDelFromTail(true);
 		setIsAllLoading(true);
+
 		const arr = list.toArray();
 		setVisualArr(arr);
 		setTempElementValue(arr[arr.length - 1].value);
 		arr[arr.length - 1].value = '';
+
 		setVisualArr(arr);
 		list.removeTail();
 		await delay(SHORT_DELAY_IN_MS);
+
 		setIsDelFromTail(false);
 		setVisualArr(list.toArray());
 	}
@@ -103,23 +114,29 @@ export const ListPage: React.FC = () => {
 	const addByIndex = async () => {
 		setIsAddByIndex(true);
 		setIsAllLoading(true);
+
 		clearInput('element-input');
 		clearInput('index-input');
+
 		const addingArr = list.toArray();
+
 		for (let i = 0; i <= Number(indexInputValue); i++) {
 			setNewIndex(i);
-			await delay(SHORT_DELAY_IN_MS);
+			await delay(DELAY_IN_MS);
 			if (i < Number(indexInputValue)) {
 				addingArr[i].state = ElementStates.Changing;
 				setVisualArr(addingArr);
 			}
 		}
+
 		setIsAddByIndex(false);
 		list.insertByIndex(elementInputValue, Number(indexInputValue));
+
 		const resultArr = list.toArray();
 		resultArr[Number(indexInputValue)].state = ElementStates.Modified;
 		setVisualArr(resultArr);
-		await delay(SHORT_DELAY_IN_MS);
+
+		await delay(DELAY_IN_MS);
 		resultArr[Number(indexInputValue)].state = ElementStates.Default;
 		setVisualArr(resultArr);
 	}
@@ -127,19 +144,24 @@ export const ListPage: React.FC = () => {
 	const delByIndex = async () => {
 		setIsAllLoading(true);
 		clearInput('index-input');
+
 		const deleteArr = list.toArray();
+
 		for (let i = 0; i < Number(indexInputValue); i++) {
 			await delay(SHORT_DELAY_IN_MS);
 			deleteArr[i].state = ElementStates.Changing;
 			setVisualArr([...deleteArr]);
 		}
+
 		await delay(SHORT_DELAY_IN_MS);
 		setTempElementValue(deleteArr[Number(indexInputValue)].value);
 		deleteArr[Number(indexInputValue)].value = '';
+
 		setIsDelByIndex(true);
 		deleteArr[Number(indexInputValue)].state = ElementStates.Default;
 		setNewIndex(Number(indexInputValue));
-		await delay(SHORT_DELAY_IN_MS);
+
+		await delay(DELAY_IN_MS);
 		list.removeByIndex(Number(indexInputValue));
 		setVisualArr(list.toArray());
 		setIsDelByIndex(false);
@@ -161,6 +183,7 @@ export const ListPage: React.FC = () => {
 						extraClass={styles.input}
 						onChange={handleAddElementInputChange}
 						id='element-input'
+						disabled={isAllLoading}
 					/>
 					<Button
 						text='Добавить в head'
@@ -220,6 +243,7 @@ export const ListPage: React.FC = () => {
 						extraClass={styles.input}
 						onChange={handlePointIndexInputChange}
 						id='index-input'
+						disabled={isAllLoading}
 					/>
 					<Button
 						text='Добавить по индексу'
