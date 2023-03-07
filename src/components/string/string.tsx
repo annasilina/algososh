@@ -49,21 +49,6 @@ export const StringComponent: React.FC = () => {
     }
   }
 
-  // useEffect(() => {
-  //   const input = document.getElementById('input');
-  //   const btn = document.getElementById('reverse-btn') as HTMLButtonElement;
-  //
-  //   const handleEnterClick = (e: KeyboardEvent) => {
-  //     e.code === 'Enter' && btn.click();
-  //   }
-  //
-  //   input?.addEventListener('keyup', handleEnterClick)
-  //
-  //   return () => {
-  //     input?.removeEventListener('keyup', handleEnterClick);
-  //   }
-  // })
-
   return (
     <SolutionLayout title="Строка">
       <section className={styles.inputSection} >
