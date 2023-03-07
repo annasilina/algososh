@@ -178,6 +178,7 @@ export const ListPage: React.FC = () => {
 				<div className={styles.controlsContainer}>
 					<Input
 						placeholder='Введите значение'
+						value=''
 						maxLength={4}
 						isLimitText={true}
 						extraClass={styles.input}
@@ -239,6 +240,7 @@ export const ListPage: React.FC = () => {
 				<div className={styles.controlsContainer}>
 					<Input
 						placeholder='Введите индекс'
+						value=''
 						type='number'
 						extraClass={styles.input}
 						onChange={handlePointIndexInputChange}

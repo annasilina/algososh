@@ -47,6 +47,7 @@ export const FibonacciPage: React.FC = () => {
 				<section className={`${styles.inputSection}`}>
 					<Input
 						placeholder='Введите число'
+						value=''
 						type='number'
 						max={19}
 						isLimitText={true}

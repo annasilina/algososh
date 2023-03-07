@@ -54,6 +54,7 @@ export const StringComponent: React.FC = () => {
 			<section className={styles.inputSection}>
 				<Input
 					placeholder='Введите текст'
+					value=''
 					maxLength={11}
 					isLimitText={true}
 					extraClass={styles.input}

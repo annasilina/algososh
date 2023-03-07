@@ -75,6 +75,7 @@ export const QueuePage: React.FC = () => {
 				<div className={styles.inputContainer}>
 					<Input
 						placeholder='Введите символы'
+						value=''
 						type='text'
 						maxLength={4}
 						isLimitText={true}
