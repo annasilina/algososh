@@ -147,7 +147,7 @@ export const ListPage: React.FC = () => {
 
 		const deleteArr = list.toArray();
 
-		for (let i = 0; i < Number(indexInputValue); i++) {
+		for (let i = 0; i <= Number(indexInputValue); i++) {
 			await delay(SHORT_DELAY_IN_MS);
 			deleteArr[i].state = ElementStates.Changing;
 			setVisualArr([...deleteArr]);
@@ -257,7 +257,7 @@ export const ListPage: React.FC = () => {
 									setIsAllLoading(false);
 								})}
 						isLoader={isAddByIndex}
-						disabled={isAllLoading || isInvalidIndex || !(indexInputValue && elementInputValue)}
+						disabled={isAllLoading || isInvalidIndex || !(indexInputValue !== '' && elementInputValue)}
 					>
 					</Button>
 					<Button
@@ -271,7 +271,7 @@ export const ListPage: React.FC = () => {
 									setIsAllLoading(false);
 								})}
 						isLoader={isDelByIndex}
-						disabled={isAllLoading || isInvalidIndex || !indexInputValue}
+						disabled={isAllLoading || isInvalidIndex || indexInputValue === ''}
 					>
 					</Button>
 				</div>
