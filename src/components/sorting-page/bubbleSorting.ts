@@ -16,15 +16,16 @@ export const bubbleSorting = async (
 
 	for (let i = 0; i < array.length; i++) {
 		for (let j = 0; j < array.length - i - 1; j++) {
-			// array[j].state = ElementStates.Changing;
-			// array[j + 1].state = ElementStates.Changing;
-			// setArray([...array]);
-			if (setCurrentIndex) setCurrentIndex([i, j]);
 			if (delay) await delay(SHORT_DELAY_IN_MS);
+			if (setCurrentIndex) setCurrentIndex([j, j + 1]);
 
-			direction === Direction.Ascending
-				? statement = (array[j] > array[j + 1])
-				: statement = (array[j] < array[j + 1])
+			if (direction === Direction.Ascending) {
+				statement = (array[j] > array[j + 1])
+			}
+
+			if (direction === Direction.Descending) {
+				statement = (array[j] < array[j + 1])
+			}
 
 			if (statement) {
 				tmp = array[j + 1];

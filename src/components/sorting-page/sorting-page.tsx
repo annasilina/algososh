@@ -33,6 +33,7 @@ export const SortingPage: React.FC = () => {
   }, [])
 
   const changeSortingOption = (evt: ChangeEvent<HTMLInputElement>) => {
+    console.log(evt.target.value);
     setSortingType(evt.target.value);
   }
 
