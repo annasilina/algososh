@@ -7,22 +7,28 @@ import {randomArr} from "../../utils/randomArr";
 import {Column} from "../ui/column/column";
 import {Direction} from "../../types/direction";
 import {ElementStates} from "../../types/element-states";
-import {TItem} from "../../types/TItem";
 import {delay} from "../../utils/delay";
-import {SHORT_DELAY_IN_MS} from "../../constants/delays";
+import {selectionSorting} from "./selectionSorting";
+import {bubbleSorting} from "./bubbleSorting";
 
 export const SortingPage: React.FC = () => {
-  const [array, setArray] = useState<TItem<number>[]>([]);
+  const [array, setArray] = useState<number[]>([]);
+  const [sortedIndex, setSortedIndex] = useState<number[]>([]);
+  const [currentIndex, setCurrentIndex] = useState<number[]>([]);
   const [sortingType, setSortingType] = useState<string>('selection');
   const [isSorting, setIsSorting] = useState<boolean>(false);
   const [ascending, setAscending] = useState<boolean>(false);
   const [descending, setDescending] = useState<boolean>(false);
 
   const generateNewArr = () => {
+    setSortedIndex([]);
+    setCurrentIndex([]);
     setArray([...randomArr()]);
   }
 
   useEffect(() => {
+    setSortedIndex([]);
+    setCurrentIndex([]);
     setArray([...randomArr()]);
   }, [])
 
@@ -31,11 +37,13 @@ export const SortingPage: React.FC = () => {
   }
 
   const handleOnClick = (direction: Direction) => {
+    setSortedIndex([]);
+    setCurrentIndex([]);
     setIsSorting(true);
 
     direction === Direction.Ascending
     && sortingType === 'selection'
-    && selectionSorting(array, direction)
+    && selectionSorting(array, direction, setArray, setCurrentIndex, setSortedIndex, delay)
       .then(() => {
         setIsSorting(false);
         setAscending(false);
@@ -43,7 +51,7 @@ export const SortingPage: React.FC = () => {
 
     direction === Direction.Descending
     && sortingType === 'selection'
-    && selectionSorting(array, direction)
+    && selectionSorting(array, direction, setArray, setCurrentIndex, setSortedIndex, delay)
       .then(() => {
         setIsSorting(false);
         setDescending(false);
@@ -51,7 +59,7 @@ export const SortingPage: React.FC = () => {
 
     direction === Direction.Ascending
     && sortingType === 'bubble'
-    && bubbleSorting(array, direction)
+    && bubbleSorting(array, direction, setArray, setCurrentIndex, setSortedIndex, delay)
       .then(() => {
         setIsSorting(false);
         setAscending(false);
@@ -59,66 +67,11 @@ export const SortingPage: React.FC = () => {
 
     direction === Direction.Descending
     && sortingType === 'bubble'
-    && bubbleSorting(array, direction)
+    && bubbleSorting(array, direction, setArray, setCurrentIndex, setSortedIndex, delay)
       .then(() => {
         setIsSorting(false);
         setDescending(false);
       });
-  }
-
-  const selectionSorting = async (array: TItem<number>[], direction: Direction) => {
-    let tmp;
-    let statement;
-
-    for (let i = 0; i < array.length; i++) {
-      let compareInd = i;
-      for (let j = i + 1; j < array.length; j++) {
-        array[compareInd].state = ElementStates.Changing;
-        array[j].state = ElementStates.Changing;
-        setArray([...array]);
-
-        direction === Direction.Ascending
-          ? statement = (array[compareInd].value > array[j].value)
-          : statement = (array[compareInd].value < array[j].value)
-
-        await delay(SHORT_DELAY_IN_MS);
-
-        if (statement) {
-          tmp = array[compareInd].value;
-          array[compareInd].value = array[j].value;
-          array[j].value = tmp;
-        }
-        array[j].state = ElementStates.Default;
-      }
-      array[i].state = ElementStates.Modified;
-    }
-  }
-
-  const bubbleSorting = async (array: TItem<number>[], direction: Direction) => {
-    let tmp;
-    let statement;
-
-    for (let i = 0; i < array.length; i++) {
-      for (let j = 0; j < array.length - i - 1; j++) {
-        array[j].state = ElementStates.Changing;
-        array[j + 1].state = ElementStates.Changing;
-        setArray([...array]);
-
-        direction === Direction.Ascending
-          ? statement = (array[j].value > array[j + 1].value)
-          : statement = (array[j].value < array[j + 1].value)
-
-        await delay(SHORT_DELAY_IN_MS);
-
-        if (statement) {
-          tmp = array[j + 1].value;
-          array[j + 1].value = array[j].value;
-          array[j].value = tmp;
-        }
-        array[j].state = ElementStates.Default;
-      }
-      array[array.length - i - 1].state = ElementStates.Modified;
-    }
   }
 
   return (
@@ -182,8 +135,14 @@ export const SortingPage: React.FC = () => {
           {array.map((item, index) => (
             <li key={index} className={styles.column}>
               <Column
-                index={item.value}
-                state={item.state}
+                index={item}
+                state={
+                  sortedIndex.includes(index)
+                    ? ElementStates.Modified
+                    : currentIndex.includes(index)
+                      ? ElementStates.Changing
+                      : ElementStates.Default
+                }
               >
               </Column>
             </li>
