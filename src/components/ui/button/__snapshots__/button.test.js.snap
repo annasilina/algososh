@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`button disabled rendered correctly 1`] = `
+exports[`<Button /> should render correctly with disabled prop 1`] = `
 <button
   className="text text_type_button text_color_primary button undefined false "
   disabled={true}
@@ -12,7 +12,7 @@ exports[`button disabled rendered correctly 1`] = `
 </button>
 `;
 
-exports[`button with loader rendered correctly 1`] = `
+exports[`<Button /> should render correctly with loader 1`] = `
 <button
   className="text text_type_button text_color_primary button undefined loader "
   disabled={true}
@@ -26,7 +26,7 @@ exports[`button with loader rendered correctly 1`] = `
 </button>
 `;
 
-exports[`button with text "Button" rendered correctly 1`] = `
+exports[`<Button /> should render correctly with text "Test Button Text" 1`] = `
 <button
   className="text text_type_button text_color_primary button undefined false "
   type="button"
@@ -34,12 +34,12 @@ exports[`button with text "Button" rendered correctly 1`] = `
   <p
     className="text undefined"
   >
-    Button
+    Test Button Text
   </p>
 </button>
 `;
 
-exports[`button without text rendered correctly 1`] = `
+exports[`<Button /> should render correctly without text 1`] = `
 <button
   className="text text_type_button text_color_primary button undefined false "
   type="button"
