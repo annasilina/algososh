@@ -12,7 +12,7 @@ import {delay} from "../../utils/delay";
 import {SHORT_DELAY_IN_MS} from "../../constants/delays";
 
 export const SortingPage: React.FC = () => {
-  const [array, setArray] = useState<Array<TItem>>([]);
+  const [array, setArray] = useState<TItem<number>[]>([]);
   const [sortingType, setSortingType] = useState<string>('selection');
   const [isSorting, setIsSorting] = useState<boolean>(false);
   const [ascending, setAscending] = useState<boolean>(false);
@@ -66,7 +66,7 @@ export const SortingPage: React.FC = () => {
       });
   }
 
-  const selectionSorting = async (array: Array<TItem>, direction: Direction) => {
+  const selectionSorting = async (array: TItem<number>[], direction: Direction) => {
     let tmp;
     let statement;
 
@@ -94,7 +94,7 @@ export const SortingPage: React.FC = () => {
     }
   }
 
-  const bubbleSorting = async (array: Array<TItem>, direction: Direction) => {
+  const bubbleSorting = async (array: TItem<number>[], direction: Direction) => {
     let tmp;
     let statement;
 

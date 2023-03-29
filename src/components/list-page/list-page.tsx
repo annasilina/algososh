@@ -1,6 +1,7 @@
 import React, {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {SolutionLayout} from "../ui/solution-layout/solution-layout";
-import {LinkedList, TListItem} from "./LinkedList";
+import {LinkedList} from "./LinkedList";
+import {TItem} from "../../types/TItem";
 import styles from "./list.module.css";
 import {Input} from "../ui/input/input";
 import {Button} from "../ui/button/button";
@@ -17,7 +18,7 @@ export const ListPage: React.FC = () => {
 			new LinkedList<string>(['0', '34', '8', '1'])
 		, []);
 
-	const [visualArr, setVisualArr] = useState<TListItem<string>[]>(list.toArray());
+	const [visualArr, setVisualArr] = useState<TItem<string>[]>(list.toArray());
 	const [elementInputValue, setElementInputValue] = useState<string>('');
 	const [indexInputValue, setIndexInputValue] = useState<number | ''>('');
 	const [isAddToHead, setIsAddToHead] = useState<boolean>(false);

@@ -1,6 +1,6 @@
 import {ElementStates} from "./element-states";
 
-export type TItem = {
-	value: number;
+export type TItem<T> = {
+	value: T;
 	state: ElementStates;
 }

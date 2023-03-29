@@ -1,9 +1,5 @@
 import {ElementStates} from "../../types/element-states";
-
-export type TListItem<T> = {
-	value: T;
-	state: ElementStates;
-}
+import {TItem} from "../../types/TItem";
 
 export class Node<T> {
 	value: T
@@ -22,7 +18,7 @@ interface ILinkedList<T> {
 	removeByIndex: (index: number) => void;
 	removeHead: () => void;
 	removeTail: () => void;
-	toArray: () => Array<TListItem<T>>;
+	toArray: () => TItem<T>[];
 	getSize: () => number;
 	clear: () => void;
 }
