@@ -3,6 +3,7 @@
 describe('stack pages', () => {
 	beforeEach(() => {
 		cy.visit('/stack');
+		cy.clock()
 		cy.get('[id="add-elem-btn"]').as('addButton');
 		cy.get('[id="del-elem-btn"]').as('delButton');
 		cy.get('[id="clear-stack-btn"]').as('clearButton');
@@ -10,10 +11,10 @@ describe('stack pages', () => {
 
 	it('add element button should be switch disabled state correctly depends on input value', () => {
 		cy.get('input').should('have.value', '');
-		cy.get('[id="add-elem-btn"]').should('be.disabled')
+		cy.get('@addButton').should('be.disabled')
 
 		cy.get('input').type('1')
-		cy.get('[id="add-elem-btn"]').should('be.enabled')
+		cy.get('@addButton').should('be.enabled')
 	});
 
 	it('add element button should adding elements one by one to the top', () => {
@@ -32,6 +33,8 @@ describe('stack pages', () => {
 			.should('have.css', 'border', '4px solid rgb(210, 82, 225)')
 			.contains('1')
 			.wrap({index: 0, head: 'top'});
+
+		cy.tick(500);
 
 		// checking circles array after element was added
 		cy
@@ -57,6 +60,8 @@ describe('stack pages', () => {
 			.contains('2')
 			.wrap({index: 1, head: 'top'});
 
+		cy.tick(500);
+
 		// checking circles array after element was added
 		cy
 			.get('@circles')
@@ -81,6 +86,8 @@ describe('stack pages', () => {
 			.contains('3')
 			.wrap({index: 2, head: 'top'});
 
+		cy.tick(500);
+
 		// checking circles array after element was added
 		cy
 			.get('@circles')
@@ -94,15 +101,24 @@ describe('stack pages', () => {
 	});
 
 	it('del element button should deleting one by one element from the top', () => {
-		// adding element in stack
+		// adding elements in stack
 		cy.get('input').type('1').should('have.value', '1');
-		cy.get('@addButton').click();
+		cy.get('@addButton').click().wrap({isLoader: true});
+
+		cy.tick(500);
+		cy.get('@addButton').wrap({isLoader: false});
 
 		cy.get('input').type('2').should('have.value', '2');
-		cy.get('@addButton').click();
+		cy.get('@addButton').click().wrap({isLoader: true});
+
+		cy.tick(500);
+		cy.get('@addButton').wrap({isLoader: false});
 
 		cy.get('input').type('3').should('have.value', '3');
-		cy.get('@addButton').click();
+		cy.get('@addButton').click().wrap({isLoader: true});
+
+		cy.tick(500);
+		cy.get('@addButton').wrap({isLoader: false});
 
 		// make alias for circles array
 		cy.get('[class^=circle_circle]').as('circles');
@@ -122,6 +138,8 @@ describe('stack pages', () => {
 			.get('@circles')
 			.last().should('have.css', 'border', '4px solid rgb(210, 82, 225)');
 
+		cy.tick(500);
+
 		// check circles array after deleting element from top
 		cy.get('@circles')
 			.should('have.length', 2)
@@ -135,6 +153,8 @@ describe('stack pages', () => {
 			.get('@circles')
 			.last().should('have.css', 'border', '4px solid rgb(210, 82, 225)');
 
+		cy.tick(500);
+
 		// check circles array after deleting element from top
 		cy.get('@circles')
 			.should('have.length', 1)
@@ -147,6 +167,8 @@ describe('stack pages', () => {
 			.get('@circles')
 			.last().should('have.css', 'border', '4px solid rgb(210, 82, 225)');
 
+		cy.tick(500);
+
 		// check circles array after deleting the last element
 		cy.get('@circles')
 			.should('have.length', 0);
@@ -154,16 +176,26 @@ describe('stack pages', () => {
 
 	it('clear stack button should clear all stack in one time', () => {
 		cy.get('input').type('1').should('have.value', '1');
-		cy.get('@addButton').click();
+		cy.get('@addButton').click().wrap({isLoader: true});
+
+		cy.tick(500);
+		cy.get('@addButton').wrap({isLoader: false});
 
 		cy.get('input').type('2').should('have.value', '2');
-		cy.get('@addButton').click();
+		cy.get('@addButton').click().wrap({isLoader: true});
+
+		cy.tick(500);
+		cy.get('@addButton').wrap({isLoader: false});
 
 		cy.get('input').type('3').should('have.value', '3');
-		cy.get('@addButton').click();
+		cy.get('@addButton').click().wrap({isLoader: true});
+
+		cy.tick(500);
+		cy.get('@addButton').wrap({isLoader: false});
 
 		cy.get('@clearButton').click().wrap({isLoader: true});
 
+		cy.tick(500);
 		cy.get('[class^=circle_circle]').should('have.length', 0);
 
 		cy.get('@clearButton').wrap({isLoader: false});
