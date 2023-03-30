@@ -63,6 +63,7 @@ export const FibonacciPage: React.FC = () => {
 						isLoader={isCalculating}
 						extraClass={styles.btn}
 						onClick={handleButtonClick}
+						id='calculate-btn'
 					>
 					</Button>
 				</section>
