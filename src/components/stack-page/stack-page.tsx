@@ -82,6 +82,7 @@ export const StackPage: React.FC = () => {
             disabled={isLoading || inputValue === ''}
             isLoader={adding}
             type='button'
+            id='add-elem-btn'
             onClick={() =>
               handleAddButton()
                 .then(() => {
@@ -96,6 +97,7 @@ export const StackPage: React.FC = () => {
             disabled={isLoading || !stackArray.length}
             isLoader={deleting}
             type='button'
+            id='del-elem-btn'
             onClick={() =>
               handleDeleteButton()
                 .then(() => {
@@ -110,6 +112,7 @@ export const StackPage: React.FC = () => {
           disabled={isLoading || !stackArray.length}
           isLoader={clearing}
           type='button'
+          id='clear-stack-btn'
           onClick={() => {
             handleClearButton()
               .then(() => {

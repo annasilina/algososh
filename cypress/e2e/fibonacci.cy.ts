@@ -19,7 +19,8 @@ describe('fibonacci page', () => {
 
 	it('should be calculate fibonacci values correctly with loader on button and disabled input trough calculation', function () {
 		cy.get('input').type('5').should('have.value', '5');
-		cy.get('[id="calculate-btn"]').click().wrap({isLoader: true}).get('input').should('be.disabled');
+		cy.get('[id="calculate-btn"]').click().wrap({isLoader: true})
+		cy.get('input').should('be.disabled');
 
 		cy.get('[class^=circle_circle]').wrap({letter: '0'}).wrap({index: 0});
 		cy.get('[class^=circle_circle]').wrap({letter: '1'}).wrap({index: 1});
