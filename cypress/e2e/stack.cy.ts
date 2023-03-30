@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe('stack pages', () => {
+describe('stack page', () => {
 	beforeEach(() => {
 		cy.visit('/stack');
 		cy.clock()
