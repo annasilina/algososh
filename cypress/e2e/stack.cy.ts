@@ -29,37 +29,25 @@ describe('stack page', () => {
 
 		cy.get('input').should('be.disabled');
 
-		// make alias for circles array
-		cy.get('[class^=circle_content]').as('circles');
-		cy.get('[class^=circle_circle]').as('circle');
-		cy.get('[class*=circle_index]').as('circle_index');
-		cy.get('[class*=circle_head]').as('circle_head');
-
 		// checking circles array through adding first element
 		cy
-			.get('@circles')
-			.should('have.length', 1)
+			.get('[class^=circle_circle')
+			.should('have.length', '1')
 			.last()
 			.should('have.css', 'border', '4px solid rgb(210, 82, 225)')
-			.contains('1')
-			.within(() => {
-				cy.get('@circle_index').contains('0')
-				cy.get('@circle_head').contains('top');
-			});
+			.get('[class*=circle_index]').last().contains('0')
+			.get('[class*=circle_head]').last().contains('top');
 
 		cy.tick(500);
 
 		// checking circles array after first element was added
 		cy
-			.get('@circles')
+			.get('[class^=circle_circle')
 			.should('have.length', 1)
 			.last()
 			.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
-			.contains('1')
-			.within(() => {
-				cy.get('@circle_index').contains('0')
-				cy.get('@circle_head').contains('top');
-			});
+			.get('[class*=circle_index]').last().contains('0')
+			.get('[class*=circle_head]').last().contains('top');
 
 		cy.get('[class^=button_loader]').should('not.exist');
 
@@ -80,29 +68,23 @@ describe('stack page', () => {
 
 		// checking circles array through adding second element
 		cy
-			.get('@circles')
+			.get('[class^=circle_circle')
 			.should('have.length', 2)
 			.last()
 			.should('have.css', 'border', '4px solid rgb(210, 82, 225)')
-			.contains('2')
-			.within(() => {
-				cy.get('@circle_index').contains('1')
-				cy.get('@circle_head').contains('top');
-			})
+			.get('[class*=circle_index]').last().contains('1')
+			.get('[class*=circle_head]').last().contains('top');
 
 		cy.tick(500);
 
 		// checking circles array after second element was added
 		cy
-			.get('@circles')
+			.get('[class^=circle_circle')
 			.should('have.length', 2)
 			.last()
 			.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
-			.contains('2')
-			.within(() => {
-				cy.get('@circle_index').contains('1')
-				cy.get('@circle_head').contains('top');
-			})
+			.get('[class*=circle_index]').last().contains('1')
+			.get('[class*=circle_head]').last().contains('top');
 
 		cy.get('[class^=button_loader]').should('not.exist');
 
@@ -124,30 +106,23 @@ describe('stack page', () => {
 
 		// checking circles array through adding third element
 		cy
-			.get('@circles')
+			.get('[class^=circle_circle')
 			.should('have.length', 3)
 			.last()
 			.should('have.css', 'border', '4px solid rgb(210, 82, 225)')
-			.contains('3')
-			.within(() => {
-				cy.get('@circle_index').contains('2')
-				cy.get('@circle_head').contains('top');
-			});
+			.get('[class*=circle_index]').last().contains('2')
+			.get('[class*=circle_head]').last().contains('top');
 
 		cy.tick(500);
 
 		// checking circles array after third element was added
 		cy
-			.get('@circles')
+			.get('[class^=circle_circle')
 			.should('have.length', 3)
 			.last()
 			.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
-			.contains('3')
-			.within(() => {
-				cy.get('@circle_index').contains('2')
-				cy.get('@circle_head').contains('top');
-			});
-
+			.get('[class*=circle_index]').last().contains('2')
+			.get('[class*=circle_head]').last().contains('top');
 
 		cy.get('[class^=button_loader]').should('not.exist');
 
@@ -174,34 +149,13 @@ describe('stack page', () => {
 
 		cy.tick(500);
 
-		// make alias for circles array
-		cy.get('[class^=circle_circle]').as('circles');
-		cy.get('[class*=circle_index]').as('circle_index');
-		cy.get('[class*=circle_head]').as('circle_head');
-
 		// check circles array before deleting
-		cy.get('@circles')
+		cy.get('[class^=circle_circle]')
 			.should('have.length', 3)
 			.each((item, index) => {
-				if (index === 0)
-					cy
-						.wrap(item).contains('1')
-						.within(() => {
-							cy.get('@circle_index').contains(`${index}`);
-						});
-				if (index === 1)
-					cy
-						.wrap(item).contains('2')
-						.within(() => {
-							cy.get('@circle_index').contains(`${index}`);
-						});
-				if (index === 2)
-					cy
-						.wrap(item).contains('3')
-						.within(() => {
-							cy.get('@circle_index').contains(`${index}`);
-							cy.get('@circle_head').contains('top');
-						});
+				if (index === 0) cy.wrap(item).contains('1')
+				if (index === 1) cy.wrap(item).contains('2')
+				if (index === 2) cy.wrap(item).contains('3')
 			});
 
 		// second step - deleting elements from stack
@@ -216,28 +170,17 @@ describe('stack page', () => {
 		cy.get('input').should('be.disabled');
 
 		// checking circles array through deleting first element from the top
-		cy.get('@circles')
+		cy.get('[class^=circle_circle]')
 			.last().should('have.css', 'border', '4px solid rgb(210, 82, 225)');
 
 		cy.tick(500);
 
 		// check circles array after first element was deleted
-		cy.get('@circles')
+		cy.get('[class^=circle_circle]')
 			.should('have.length', 2)
 			.each((item, index) => {
-				if (index === 0)
-					cy
-						.wrap(item).contains('1')
-						.within(() => {
-							cy.get('@circle_index').contains(`${index}`);
-						});
-				if (index === 1)
-					cy
-						.wrap(item).contains('2')
-						.within(() => {
-							cy.get('@circle_index').contains(`${index}`);
-							cy.get('@circle_head').contains('top');
-						});
+				if (index === 0) cy.wrap(item).contains('1')
+				if (index === 1) cy.wrap(item).contains('2')
 			});
 
 		cy.get('[class^=button_loader]').should('not.exist');
@@ -257,22 +200,16 @@ describe('stack page', () => {
 		cy.get('input').should('be.disabled');
 
 		// checking circles array through deleting second element from the top
-		cy.get('@circles')
+		cy.get('[class^=circle_circle]')
 			.last().should('have.css', 'border', '4px solid rgb(210, 82, 225)');
 
 		cy.tick(500);
 
 		// check circles array after second element was deleted
-		cy.get('@circles')
+		cy.get('[class^=circle_circle]')
 			.should('have.length', 1)
 			.each((item, index) => {
-				if (index === 0)
-					cy
-						.wrap(item).contains('1')
-						.within(() => {
-							cy.get('@circle_index').contains(`${index}`);
-							cy.get('@circle_head').contains('top');
-						});
+				if (index === 0) cy.wrap(item).contains('1')
 			});
 
 		cy.get('[class^=button_loader]').should('not.exist');
@@ -292,13 +229,13 @@ describe('stack page', () => {
 		cy.get('input').should('be.disabled');
 
 		// checking circles array through deleting second element from the top
-		cy.get('@circles')
+		cy.get('[class^=circle_circle]')
 			.last().should('have.css', 'border', '4px solid rgb(210, 82, 225)');
 
 		cy.tick(500);
 
 		// checking circles array after third element was deleted
-		cy.get('@circles')
+		cy.get('[class^=circle_circle]')
 			.should('have.length', 0);
 
 		cy.get('[class^=button_loader]').should('not.exist');

@@ -23,9 +23,7 @@ describe('string page', () => {
 
 		cy.get('input').should('be.disabled');
 
-		cy.get("[class^=circle_circle]").as('circles')
-
-		cy.get('@circles').each((item, index) => {
+		cy.get("[class^=circle_circle]").each((item, index) => {
 			if (index === 0) cy.wrap(item).should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('t');
 			if (index === 1) cy.wrap(item).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('e');
 			if (index === 2) cy.wrap(item).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('s');
@@ -34,7 +32,7 @@ describe('string page', () => {
 
 		cy.tick(1000);
 
-		cy.get('@circles').each((item, index) => {
+		cy.get("[class^=circle_circle]").each((item, index) => {
 			if (index === 0) cy.wrap(item).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('t');
 			if (index === 1) cy.wrap(item).should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('e');
 			if (index === 2) cy.wrap(item).should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('s');
@@ -43,7 +41,7 @@ describe('string page', () => {
 
 		cy.tick(1000);
 
-		cy.get('@circles').each((item, index) => {
+		cy.get("[class^=circle_circle]").each((item, index) => {
 			if (index === 0) cy.wrap(item).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('t');
 			if (index === 1) cy.wrap(item).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('s');
 			if (index === 2) cy.wrap(item).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('e');

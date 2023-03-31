@@ -29,60 +29,65 @@ describe('fibonacci page', () => {
 
 		cy.tick(500);
 
-		cy.get('[class^=circle_circle]').as('circles');
-		cy.get('[class*=circle_index]').as('circle_index');
 
-		cy.get('@circles')
+		// cy.get('[class*=circle_index]').as('circle_index');
+
+		cy.get("[class^=circle_content]")
 			.should('have.length', 1)
-			.last().contains('0')
+			.last()
 			.within(() => {
-				cy.get('@circle_index').contains('0');
+				cy.contains('0')
+				cy.get('[class*=circle_index]').contains('0');
 			})
 
 		cy.tick(500);
 
-		cy.get('@circles')
+		cy.get("[class^=circle_content]")
 			.should('have.length', 2)
-			.last().contains('1')
+			.last()
 			.within(() => {
-				cy.get('@circle_index').contains('1');
+				cy.contains('1')
+				cy.get('[class*=circle_index]').contains('1');
 			})
-
 
 		cy.tick(500);
 
-		cy.get('@circles')
+		cy.get("[class^=circle_content]")
 			.should('have.length', 3)
-			.last().contains('1')
+			.last()
 			.within(() => {
-				cy.get('@circle_index').contains('2');
+				cy.contains('1')
+				cy.get('[class*=circle_index]').contains('2');
 			})
 
 		cy.tick(500);
 
-		cy.get('@circles')
+		cy.get("[class^=circle_content]")
 			.should('have.length', 4)
-			.last().contains('2')
+			.last()
 			.within(() => {
-				cy.get('@circle_index').contains('3');
+				cy.contains('2')
+				cy.get('[class*=circle_index]').contains('3');
 			})
 
 		cy.tick(500);
 
-		cy.get('@circles')
+		cy.get("[class^=circle_content]")
 			.should('have.length', 5)
-			.last().contains('3')
+			.last()
 			.within(() => {
-				cy.get('@circle_index').contains('4');
+				cy.contains('3')
+				cy.get('[class*=circle_index]').contains('4');
 			})
 
 		cy.tick(500);
 
-		cy.get('@circles')
+		cy.get("[class^=circle_content]")
 			.should('have.length', 6)
-			.last().contains('5')
+			.last()
 			.within(() => {
-				cy.get('@circle_index').contains('5');
+				cy.contains('5')
+				cy.get('[class*=circle_index]').contains('5');
 			})
 
 		cy.get('[class^=button_loader]').should('not.exist');
