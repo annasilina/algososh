@@ -3,7 +3,7 @@
 describe('queue page', () => {
 	beforeEach(() => {
 		cy.visit('/queue');
-		cy.clock()
+		cy.clock();
 		cy.get('[id="add-btn"]').as('addButton');
 		cy.get('[id="delete-btn"]').as('delButton');
 		cy.get('[id="clear-btn"]').as('clearButton');
@@ -41,9 +41,11 @@ describe('queue page', () => {
 				cy
 					.wrap(item).should('have.css', 'border', '4px solid rgb(210, 82, 225)')
 					.children().should('be.empty')
-					.get('@circle_index').contains('0')
-					.get('@circle_head').contains('head')
-					.get('@circle_tail').contains('tail');
+					.within(() => {
+						cy.get('@circle_index').contains('0')
+						cy.get('@circle_head').contains('head')
+						cy.get('@circle_tail').contains('tail');
+					});
 		})
 
 		cy.tick(500);
@@ -55,9 +57,11 @@ describe('queue page', () => {
 				cy
 					.wrap(item).should('have.css', 'border', '4px solid rgb(0, 50, 255)')
 					.contains('1')
-					.get('@circle_index').contains('0')
-					.get('@circle_head').contains('head')
-					.get('@circle_tail').contains('tail');
+					.within(() => {
+						cy.get('@circle_index').contains('0')
+						cy.get('@circle_head').contains('head')
+						cy.get('@circle_tail').contains('tail');
+					});
 		})
 
 		cy.get('[class^=button_loader]').should('not.exist');
@@ -85,16 +89,20 @@ describe('queue page', () => {
 				cy
 					.wrap(item).should('have.css', 'border', '4px solid rgb(0, 50, 255)')
 					.contains('1')
-					.get('@circle_index').contains('0')
-					.get('@circle_head').contains('head')
-					.get('@circle_tail').should('be.empty')
+					.within(() => {
+						cy.get('@circle_index').contains('0')
+						cy.get('@circle_head').contains('head')
+						cy.get('@circle_tail').should('be.empty')
+					})
 			if (index === 1)
 				cy
 					.wrap(item).should('have.css', 'border', '4px solid rgb(210, 82, 225)')
 					.children().should('be.empty')
-					.get('@circle_index').contains('1')
-					.get('@circle_head').should('be.empty')
-					.get('@circle_tail').contains('tail');
+					.within(() => {
+						cy.get('@circle_index').contains('1')
+						cy.get('@circle_head').should('be.empty')
+						cy.get('@circle_tail').contains('tail');
+					})
 		})
 		cy.tick(500);
 
@@ -105,16 +113,20 @@ describe('queue page', () => {
 				cy
 					.wrap(item).should('have.css', 'border', '4px solid rgb(0, 50, 255)')
 					.contains('1')
-					.get('@circle_index').contains('0')
-					.get('@circle_head').contains('head')
-					.get('@circle_tail').should('be.empty');
+					.within(() => {
+						cy.get('@circle_index').contains('0')
+						cy.get('@circle_head').contains('head')
+						cy.get('@circle_tail').should('be.empty')
+					})
 			if (index === 1)
 				cy
 					.wrap(item).should('have.css', 'border', '4px solid rgb(0, 50, 255)')
 					.contains('2')
-					.get('@circle_index').contains('1')
-					.get('@circle_head').should('be.empty')
-					.get('@circle_tail').contains('tail');
+					.within(() => {
+						cy.get('@circle_index').contains('1')
+						cy.get('@circle_head').should('be.empty')
+						cy.get('@circle_tail').contains('tail');
+					})
 		})
 
 		cy.get('[class^=button_loader]').should('not.exist');
@@ -142,23 +154,29 @@ describe('queue page', () => {
 				cy
 					.wrap(item).should('have.css', 'border', '4px solid rgb(0, 50, 255)')
 					.contains('1')
-					.get('@circle_index').contains('0')
-					.get('@circle_head').contains('head')
-					.get('@circle_tail').should('be.empty')
+					.within(() => {
+						cy.get('@circle_index').contains('0')
+						cy.get('@circle_head').contains('head')
+						cy.get('@circle_tail').should('be.empty')
+					});
 			if (index === 1)
 				cy
 					.wrap(item).should('have.css', 'border', '4px solid rgb(0, 50, 255)')
 					.contains('2')
-					.get('@circle_index').contains('1')
-					.get('@circle_head').should('be.empty')
-					.get('@circle_tail').should('be.empty');
+					.within(() => {
+						cy.get('@circle_index').contains('1')
+						cy.get('@circle_head').should('be.empty')
+						cy.get('@circle_tail').should('be.empty')
+					});
 			if (index === 2)
 				cy
 					.wrap(item).should('have.css', 'border', '4px solid rgb(210, 82, 225)')
 					.children().should('be.empty')
-					.get('@circle_index').contains('2')
-					.get('@circle_head').should('be.empty')
-					.get('@circle_tail').contains('tail');
+					.within(() => {
+						cy.get('@circle_index').contains('2')
+						cy.get('@circle_head').should('be.empty')
+						cy.get('@circle_tail').contains('tail');
+					});
 		})
 
 		cy.tick(500);
@@ -170,23 +188,29 @@ describe('queue page', () => {
 				cy
 					.wrap(item).should('have.css', 'border', '4px solid rgb(0, 50, 255)')
 					.contains('1')
-					.get('@circle_index').contains('0')
-					.get('@circle_head').contains('head')
-					.get('@circle_tail').should('be.empty')
+					.within(() => {
+						cy.get('@circle_index').contains('0')
+						cy.get('@circle_head').contains('head')
+						cy.get('@circle_tail').should('be.empty')
+					});
 			if (index === 1)
 				cy
 					.wrap(item).should('have.css', 'border', '4px solid rgb(0, 50, 255)')
 					.contains('2')
-					.get('@circle_index').contains('1')
-					.get('@circle_head').should('be.empty')
-					.get('@circle_tail').should('be.empty');
+					.within(() => {
+						cy.get('@circle_index').contains('1')
+						cy.get('@circle_head').should('be.empty')
+						cy.get('@circle_tail').should('be.empty')
+					});
 			if (index === 2)
 				cy
 					.wrap(item).should('have.css', 'border', '4px solid rgb(0, 50, 255)')
 					.contains('3')
-					.get('@circle_index').contains('2')
-					.get('@circle_head').should('be.empty')
-					.get('@circle_tail').contains('tail');
+					.within(() => {
+						cy.get('@circle_index').contains('2')
+						cy.get('@circle_head').should('be.empty')
+						cy.get('@circle_tail').contains('tail');
+					});
 		})
 
 		cy.get('[class^=button_loader]').should('not.exist');
@@ -220,22 +244,28 @@ describe('queue page', () => {
 				if (index === 0)
 					cy
 						.wrap(item).contains('1')
-						.get('@circle_index').contains(`${index}`)
-						.get('@circle_head').contains('head')
-						.get('@circle_tail').should('be.empty')
+						.within(() => {
+							cy.get('@circle_index').contains(`${index}`)
+							cy.get('@circle_head').contains('head')
+							cy.get('@circle_tail').should('be.empty')
+						})
 				if (index === 1)
 					cy
 						.wrap(item)
 						.contains('2')
-						.get('@circle_index').contains(`${index}`)
-						.get('@circle_head').should('be.empty')
-						.get('@circle_tail').should('be.empty')
+						.within(() => {
+							cy.get('@circle_index').contains(`${index}`)
+							cy.get('@circle_head').should('be.empty')
+							cy.get('@circle_tail').should('be.empty')
+						})
 				if (index === 2)
 					cy
 						.wrap(item).contains('3')
-						.get('@circle_index').contains(`${index}`)
-						.get('@circle_head').should('be.empty')
-						.get('@circle_tail').contains('tail');
+						.within(() => {
+							cy.get('@circle_index').contains(`${index}`)
+							cy.get('@circle_head').should('be.empty')
+							cy.get('@circle_tail').contains('tail')
+						})
 			});
 
 		// second step - deleting elements from queue
@@ -265,22 +295,28 @@ describe('queue page', () => {
 					cy
 						.wrap(item).should('have.css', 'border', '4px solid rgb(0, 50, 255)')
 						.children().should('be.empty')
-						.get('@circle_index').contains(`${index}`)
-						.get('@circle_head').should('be.empty')
-						.get('@circle_tail').should('be.empty');
+						.within(() => {
+							cy.get('@circle_index').contains(`${index}`)
+							cy.get('@circle_head').should('be.empty')
+							cy.get('@circle_tail').should('be.empty')
+						})
 				if (index === 1)
 					cy
 						.wrap(item)
 						.contains('2')
-						.get('@circle_index').contains(`${index}`)
-						.get('@circle_head').contains('head')
-						.get('@circle_tail').should('be.empty')
+						.within(() => {
+							cy.get('@circle_index').contains(`${index}`)
+							cy.get('@circle_head').contains('head')
+							cy.get('@circle_tail').should('be.empty')
+						})
 				if (index === 2)
 					cy
 						.wrap(item).contains('3')
-						.get('@circle_index').contains(`${index}`)
-						.get('@circle_head').should('be.empty')
-						.get('@circle_tail').contains('tail');
+						.within(() => {
+							cy.get('@circle_index').contains(`${index}`)
+							cy.get('@circle_head').should('be.empty')
+							cy.get('@circle_tail').contains('tail');
+						});
 			});
 
 		cy.get('[class^=button_loader]').should('not.exist');
@@ -315,22 +351,28 @@ describe('queue page', () => {
 					cy
 						.wrap(item)
 						.children().should('be.empty')
-						.get('@circle_index').contains(`${index}`)
-						.get('@circle_head').should('be.empty')
-						.get('@circle_tail').should('be.empty');
+						.within(() => {
+							cy.get('@circle_index').contains(`${index}`)
+							cy.get('@circle_head').should('be.empty')
+							cy.get('@circle_tail').should('be.empty')
+						})
 				if (index === 1)
 					cy
 						.wrap(item).should('have.css', 'border', '4px solid rgb(0, 50, 255)')
 						.children().should('be.empty')
-						.get('@circle_index').contains(`${index}`)
-						.get('@circle_head').should('be.empty')
-						.get('@circle_tail').should('be.empty')
+						.within(() => {
+							cy.get('@circle_index').contains(`${index}`)
+							cy.get('@circle_head').should('be.empty')
+							cy.get('@circle_tail').should('be.empty')
+						})
 				if (index === 2)
 					cy
 						.wrap(item).contains('3')
-						.get('@circle_index').contains(`${index}`)
-						.get('@circle_head').contains('head')
-						.get('@circle_tail').contains('tail');
+						.within(() => {
+							cy.get('@circle_index').contains(`${index}`)
+							cy.get('@circle_head').contains('head')
+							cy.get('@circle_tail').contains('tail');
+						})
 			});
 
 		cy.get('[class^=button_loader]').should('not.exist');

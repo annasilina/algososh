@@ -190,6 +190,7 @@ export const ListPage: React.FC = () => {
 					<Button
 						text='Добавить в head'
 						type='button'
+						id='add-head-btn'
 						onClick={() =>
 							addToHead()
 								.then(() => {
@@ -204,6 +205,7 @@ export const ListPage: React.FC = () => {
 					<Button
 						text='Добавить в tail'
 						type='button'
+						id='add-tail-btn'
 						onClick={() =>
 							addToTail()
 								.then(() => {
@@ -218,6 +220,7 @@ export const ListPage: React.FC = () => {
 					<Button
 						text='Удалить из head'
 						type='button'
+						id='del-head-btn'
 						onClick={() =>
 							delFromHead()
 								.then(() => setIsAllLoading(false))}
@@ -229,6 +232,7 @@ export const ListPage: React.FC = () => {
 					<Button
 						text='Удалить из tail'
 						type='button'
+						id='del-tail-btn'
 						onClick={() =>
 							delFromTail()
 								.then(() => setIsAllLoading(false))}
@@ -250,6 +254,7 @@ export const ListPage: React.FC = () => {
 					/>
 					<Button
 						text='Добавить по индексу'
+						id='add-index-btn'
 						extraClass={styles.btnBig}
 						type='button'
 						onClick={() =>
@@ -265,6 +270,7 @@ export const ListPage: React.FC = () => {
 					</Button>
 					<Button
 						text='Удалить по индексу'
+						id='del-index-btn'
 						extraClass={styles.btnBig}
 						type='button'
 						onClick={() =>

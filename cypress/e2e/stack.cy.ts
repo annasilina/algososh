@@ -30,7 +30,8 @@ describe('stack page', () => {
 		cy.get('input').should('be.disabled');
 
 		// make alias for circles array
-		cy.get('[class^=circle_circle]').as('circles');
+		cy.get('[class^=circle_content]').as('circles');
+		cy.get('[class^=circle_circle]').as('circle');
 		cy.get('[class*=circle_index]').as('circle_index');
 		cy.get('[class*=circle_head]').as('circle_head');
 
@@ -41,8 +42,10 @@ describe('stack page', () => {
 			.last()
 			.should('have.css', 'border', '4px solid rgb(210, 82, 225)')
 			.contains('1')
-			.get('@circle_index').contains('0')
-			.get('@circle_head').contains('top');
+			.within(() => {
+				cy.get('@circle_index').contains('0')
+				cy.get('@circle_head').contains('top');
+			});
 
 		cy.tick(500);
 
@@ -53,8 +56,10 @@ describe('stack page', () => {
 			.last()
 			.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
 			.contains('1')
-			.get('@circle_index').contains('0')
-			.get('@circle_head').contains('top');
+			.within(() => {
+				cy.get('@circle_index').contains('0')
+				cy.get('@circle_head').contains('top');
+			});
 
 		cy.get('[class^=button_loader]').should('not.exist');
 
@@ -80,8 +85,10 @@ describe('stack page', () => {
 			.last()
 			.should('have.css', 'border', '4px solid rgb(210, 82, 225)')
 			.contains('2')
-			.get('@circle_index').contains('1')
-			.get('@circle_head').contains('top');
+			.within(() => {
+				cy.get('@circle_index').contains('1')
+				cy.get('@circle_head').contains('top');
+			})
 
 		cy.tick(500);
 
@@ -92,8 +99,10 @@ describe('stack page', () => {
 			.last()
 			.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
 			.contains('2')
-			.get('@circle_index').contains('1')
-			.get('@circle_head').contains('top');
+			.within(() => {
+				cy.get('@circle_index').contains('1')
+				cy.get('@circle_head').contains('top');
+			})
 
 		cy.get('[class^=button_loader]').should('not.exist');
 
@@ -120,9 +129,10 @@ describe('stack page', () => {
 			.last()
 			.should('have.css', 'border', '4px solid rgb(210, 82, 225)')
 			.contains('3')
-			.get('@circle_index').contains('2')
-			.get('@circle_head').contains('top');
-
+			.within(() => {
+				cy.get('@circle_index').contains('2')
+				cy.get('@circle_head').contains('top');
+			});
 
 		cy.tick(500);
 
@@ -133,8 +143,10 @@ describe('stack page', () => {
 			.last()
 			.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
 			.contains('3')
-			.get('@circle_index').contains('2')
-			.get('@circle_head').contains('top');
+			.within(() => {
+				cy.get('@circle_index').contains('2')
+				cy.get('@circle_head').contains('top');
+			});
 
 
 		cy.get('[class^=button_loader]').should('not.exist');
@@ -171,12 +183,25 @@ describe('stack page', () => {
 		cy.get('@circles')
 			.should('have.length', 3)
 			.each((item, index) => {
-				if (index === 0) cy.wrap(item).contains('1').get('@circle_index').contains(`${index}`);
-				if (index === 1) cy.wrap(item).contains('2').get('@circle_index').contains(`${index}`);
+				if (index === 0)
+					cy
+						.wrap(item).contains('1')
+						.within(() => {
+							cy.get('@circle_index').contains(`${index}`);
+						});
+				if (index === 1)
+					cy
+						.wrap(item).contains('2')
+						.within(() => {
+							cy.get('@circle_index').contains(`${index}`);
+						});
 				if (index === 2)
-					cy.wrap(item).contains('3')
-						.get('@circle_index').contains(`${index}`)
-						.get('@circle_head').contains('top');
+					cy
+						.wrap(item).contains('3')
+						.within(() => {
+							cy.get('@circle_index').contains(`${index}`);
+							cy.get('@circle_head').contains('top');
+						});
 			});
 
 		// second step - deleting elements from stack
@@ -200,11 +225,19 @@ describe('stack page', () => {
 		cy.get('@circles')
 			.should('have.length', 2)
 			.each((item, index) => {
-				if (index === 0) cy.wrap(item).contains('1').wrap({ index: index });
+				if (index === 0)
+					cy
+						.wrap(item).contains('1')
+						.within(() => {
+							cy.get('@circle_index').contains(`${index}`);
+						});
 				if (index === 1)
-					cy.wrap(item).contains('2')
-						.get('@circle_index').contains(`${index}`)
-						.get('@circle_head').contains('top');
+					cy
+						.wrap(item).contains('2')
+						.within(() => {
+							cy.get('@circle_index').contains(`${index}`);
+							cy.get('@circle_head').contains('top');
+						});
 			});
 
 		cy.get('[class^=button_loader]').should('not.exist');
@@ -234,9 +267,12 @@ describe('stack page', () => {
 			.should('have.length', 1)
 			.each((item, index) => {
 				if (index === 0)
-					cy.wrap(item).contains('1')
-						.get('@circle_index').contains(`${index}`)
-						.get('@circle_head').contains('top');
+					cy
+						.wrap(item).contains('1')
+						.within(() => {
+							cy.get('@circle_index').contains(`${index}`);
+							cy.get('@circle_head').contains('top');
+						});
 			});
 
 		cy.get('[class^=button_loader]').should('not.exist');
