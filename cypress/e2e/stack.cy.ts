@@ -180,7 +180,7 @@ describe('stack page', () => {
 			});
 
 		// second step - deleting elements from stack
-		// add modified state for element, that should be deleted
+		// delete first element from the top
 		cy.get('@delButton').click()
 
 		cy.get('[class^=button_loader]').should('be.exist');
@@ -190,12 +190,13 @@ describe('stack page', () => {
 
 		cy.get('input').should('be.disabled');
 
+		// checking circles array through deleting first element from the top
 		cy.get('@circles')
 			.last().should('have.css', 'border', '4px solid rgb(210, 82, 225)');
 
 		cy.tick(500);
 
-		// check circles array after deleting element from top
+		// check circles array after first element was deleted
 		cy.get('@circles')
 			.should('have.length', 2)
 			.each((item, index) => {
@@ -212,7 +213,7 @@ describe('stack page', () => {
 
 		cy.get('input').should('be.enabled');
 
-		// add modified state for element, that should be deleted
+		// delete second element
 		cy.get('@delButton').click();
 
 		cy.get('[class^=button_loader]').should('be.exist');
@@ -222,12 +223,13 @@ describe('stack page', () => {
 
 		cy.get('input').should('be.disabled');
 
+		// checking circles array through deleting second element from the top
 		cy.get('@circles')
 			.last().should('have.css', 'border', '4px solid rgb(210, 82, 225)');
 
 		cy.tick(500);
 
-		// check circles array after deleting element from top
+		// check circles array after second element was deleted
 		cy.get('@circles')
 			.should('have.length', 1)
 			.each((item, index) => {
@@ -243,7 +245,7 @@ describe('stack page', () => {
 
 		cy.get('input').should('be.enabled');
 
-		// add modified state for element, that should be deleted
+		// delete third element
 		cy.get('@delButton').click();
 
 		cy.get('[class^=button_loader]').should('be.exist');
@@ -253,12 +255,13 @@ describe('stack page', () => {
 
 		cy.get('input').should('be.disabled');
 
+		// checking circles array through deleting second element from the top
 		cy.get('@circles')
 			.last().should('have.css', 'border', '4px solid rgb(210, 82, 225)');
 
 		cy.tick(500);
 
-		// check circles array after deleting the last element
+		// checking circles array after third element was deleted
 		cy.get('@circles')
 			.should('have.length', 0);
 
