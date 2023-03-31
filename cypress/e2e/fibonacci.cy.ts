@@ -21,7 +21,11 @@ describe('fibonacci page', () => {
 
 	it('should be calculate fibonacci values correctly with loader on button and disabled input trough calculation', function () {
 		cy.get('input').type('5').should('have.value', '5');
-		cy.get('@calcBtn').click().get('input').should('be.disabled');
+
+		cy.get('@calcBtn').click()
+		cy.get('[class^=button_loader]').should('be.exist');
+
+		cy.get('input').should('be.disabled');
 
 		cy.tick(500);
 
@@ -68,6 +72,7 @@ describe('fibonacci page', () => {
 			.last().contains('5')
 			.get('@circle_index').contains('5');
 
+		cy.get('[class^=button_loader]').should('not.exist');
 		cy.get('input').should('be.enabled');
 	})
 })

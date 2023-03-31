@@ -33,23 +33,6 @@ export const StringComponent: React.FC = () => {
 		setOriginalString(evt.target.value);
 	}
 
-	// const reversString = async (originalString: string) => {
-	// 	let reversedArr = originalString.split('');
-	// 	let sorted: number[] = [];
-	// 	let start = 0;
-	// 	let end = reversedArr.length - 1;
-	// 	while (start <= end) {
-	// 		setNextIndexes([start, end]);
-	// 		await delay(DELAY_IN_MS);
-	// 		swap(reversedArr, start, end);
-	// 		setArrFromString(reversedArr);
-	// 		sorted.push(start, end);
-	// 		setSortedIndexes(sorted);
-	// 		start++;
-	// 		end--;
-	// 	}
-	// }
-
 	return (
 		<SolutionLayout title='Строка'>
 			<section className={styles.inputSection}>

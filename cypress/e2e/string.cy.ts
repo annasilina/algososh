@@ -16,9 +16,12 @@ describe('string page', () => {
 	});
 
 	it('should be reverse string correctly with loader on button and disabled input trough reversing', () => {
-		cy.get('input').type('test').get('@reverseBtn').click();
+		cy.get('input').type('test').should('have.value', 'test');
 
-		cy.tick(500);
+		cy.get('@reverseBtn').click();
+		cy.get('[class^=button_loader]').should('be.exist');
+
+		cy.get('input').should('be.disabled');
 
 		cy.get("[class^=circle_circle]").as('circles')
 
@@ -29,7 +32,7 @@ describe('string page', () => {
 			if (index === 3) cy.wrap(item).should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('t');
 		})
 
-		cy.tick(500);
+		cy.tick(1000);
 
 		cy.get('@circles').each((item, index) => {
 			if (index === 0) cy.wrap(item).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('t');
@@ -47,6 +50,7 @@ describe('string page', () => {
 			if (index === 3) cy.wrap(item).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('t');
 		})
 
+		cy.get('[class^=button_loader]').should('not.exist');
 		cy.get('input').should('be.enabled');
 	})
 })
