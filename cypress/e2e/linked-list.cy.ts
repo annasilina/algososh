@@ -15,10 +15,10 @@ describe('linked list page', () => {
 		cy.get('[id="add-index-btn"]').as('addIndBtn');
 		cy.get('[id="del-index-btn"]').as('delIndBtn');
 
-		cy.get('[class^=circle_circle]').as('circles');
-		cy.get('[class*=circle_index]').as('circle_index');
-		cy.get('[class*=circle_head]').as('circle_head');
-		cy.get('[class*=circle_tail]').as('circle_tail');
+		// cy.get('[class^=circle_circle]').as('circles');
+		// cy.get('[class*=circle_index]').as('circle_index');
+		// cy.get('[class*=circle_head]').as('circle_head');
+		// cy.get('[class*=circle_tail]').as('circle_tail');
 	});
 
 	// it('add element button should be switch disabled state correctly depends on element input value', () => {
