@@ -71,7 +71,7 @@ export const FibonacciPage: React.FC = () => {
 					{arrResult.map((item, index) => (
 						<li key={index}>
 							<Circle
-								letter={String(item)} tail={String(index)}
+								letter={String(item)} index={index}
 							/>
 						</li>
 					))}
