@@ -270,7 +270,7 @@ describe('stack page', () => {
 		cy.get('input').should('be.enabled');
 	});
 
-	it('clear stack button should clear all stack in one time', () => {
+	it('clear stack button should clear all stack elements at one time', () => {
 		cy.get('input').type('1').should('have.value', '1');
 		cy.get('@addButton').click();
 
