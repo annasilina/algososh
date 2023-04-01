@@ -260,6 +260,40 @@ describe('linked list page', () => {
 				});
 			});
 	});
+
+	it('delete element from tail should work correctly', () => {
+		cy.get('@delTailBtn').click();
+		cy.get('[class^=button_loader]').should('be.exist');
+
+		cy.get('[class^=circle_content]')
+			.each((item, index) => {
+				cy.wrap(item).within(() => {
+					if (index === 3) {
+						cy.get('[class*=circle_default]').should('not.have.text')
+						cy.get('[class*=circle_small]')
+							.should('have.css', 'border', '4px solid rgb(210, 82, 225)')
+							.contains('1')
+					}
+				})
+			})
+
+		cy.tick(500);
+
+		cy.get('[class^=circle_content]')
+			.should('have.length', 3)
+			.each((item, index) => {
+				cy.wrap(item).within(() => {
+					if (index === 2) {
+						cy.get('[class*=circle_circle]')
+							.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
+							.contains('8')
+						cy.get('[class*=circle_index]').contains(`${index}`);
+						cy.get('[class*=circle_head]').should('be.empty');
+						cy.get('[class*=circle_tail]').contains('tail');
+					}
+				});
+			});
+	});
 })
 
 export {}
