@@ -21,57 +21,115 @@ describe('linked list page', () => {
 		// cy.get('[class*=circle_tail]').as('circle_tail');
 	});
 
-	// it('add element button should be switch disabled state correctly depends on element input value', () => {
-	// 	cy.get('input').each((item) => {
-	// 		cy.wrap(item).should('have.value', '');
-	// 	})
-	// 	cy.get('@addHeadBtn').should('be.disabled');
-	// 	cy.get('@addTailBtn').should('be.disabled');
-	// 	cy.get('@addIndBtn').should('be.disabled');
-	// 	cy.get('@delIndBtn').should('be.disabled');
-	//
-	// 	cy.get('input').each((item) => {
-	// 		cy.wrap(item).type('1').should('have.value', '1');
-	// 	})
-	// 	cy.get('@addHeadBtn').should('be.enabled');
-	// 	cy.get('@addTailBtn').should('be.enabled');
-	// 	cy.get('@addIndBtn').should('be.enabled');
-	// 	cy.get('@delIndBtn').should('be.enabled');
-	// });
+	it('add element button should be switch disabled state correctly depends on element input value', () => {
+		cy.get('input').each((item) => {
+			cy.wrap(item).should('have.value', '');
+		})
+		cy.get('@addHeadBtn').should('be.disabled');
+		cy.get('@addTailBtn').should('be.disabled');
+		cy.get('@addIndBtn').should('be.disabled');
+		cy.get('@delIndBtn').should('be.disabled');
 
-	// it('default list should be rendered correctly', () => {
-	// 	cy
-	// 		.get('@circles').each((item, index) => {
-	// 		if (index === 0)
-	// 			cy
-	// 				.wrap(item).should('have.css', 'border', '4px solid rgb(0, 50, 255)')
-	// 				.contains('0')
-	// 				.get('@circle_index').contains(`${index}`)
-	// 				.get('@circle_head').contains('head')
-	// 				.get('@circle_tail').should('be.empty')
-	// 		if (index === 1)
-	// 			cy
-	// 				.wrap(item).should('have.css', 'border', '4px solid rgb(0, 50, 255)')
-	// 				.contains('34')
-	// 				.get('@circle_index').contains(`${index}`)
-	// 				.get('@circle_head').should('be.empty')
-	// 				.get('@circle_tail').should('be.empty')
-	// 		if (index === 2)
-	// 			cy
-	// 				.wrap(item).should('have.css', 'border', '4px solid rgb(0, 50, 255)')
-	// 				.contains('8')
-	// 				.get('@circle_index').contains(`${index}`)
-	// 				.get('@circle_head').should('be.empty')
-	// 				.get('@circle_tail').should('be.empty')
-	// 		if (index === 3)
-	// 			cy
-	// 				.wrap(item).should('have.css', 'border', '4px solid rgb(0, 50, 255)')
-	// 				.contains('1')
-	// 				.get('@circle_index').contains(`${index}`)
-	// 				.get('@circle_head').should('be.empty')
-	// 				.get('@circle_tail').contains('tail')
-	// 	})
-	// })
+		cy.get('input').each((item) => {
+			cy.wrap(item).type('1').should('have.value', '1');
+		})
+		cy.get('@addHeadBtn').should('be.enabled');
+		cy.get('@addTailBtn').should('be.enabled');
+		cy.get('@addIndBtn').should('be.enabled');
+		cy.get('@delIndBtn').should('be.enabled');
+	});
+
+	it('default list should be rendered correctly', () => {
+		cy
+			.get('[class^=circle_content]').each((item, index) => {
+			if (index === 0)
+				cy.wrap(item).within(() => {
+					cy.get('[class^=circle_circle]')
+						.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
+						.contains('0');
+					cy.get('[class*=circle_index]').contains(`${index}`)
+					cy.get('[class*=circle_head]').contains('head')
+					cy.get('[class*=circle_tail]').should('be.empty')
+				});
+
+			if (index === 1)
+				cy.wrap(item).within(() => {
+					cy.get('[class^=circle_circle]')
+						.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
+						.contains('34');
+					cy.get('[class*=circle_index]').contains(`${index}`)
+					cy.get('[class*=circle_head]').should('be.empty')
+					cy.get('[class*=circle_tail]').should('be.empty')
+				});
+
+			if (index === 2)
+				cy.wrap(item).within(() => {
+					cy.get('[class^=circle_circle]')
+						.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
+						.contains('8');
+					cy.get('[class*=circle_index]').contains(`${index}`)
+					cy.get('[class*=circle_head]').should('be.empty')
+					cy.get('[class*=circle_tail]').should('be.empty')
+				});
+
+			if (index === 3)
+				cy.wrap(item).within(() => {
+					cy.get('[class^=circle_circle]')
+						.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
+						.contains('1');
+					cy.get('[class*=circle_index]').contains(`${index}`)
+					cy.get('[class*=circle_head]').should('be.empty')
+					cy.get('[class*=circle_tail]').contains('tail')
+				});
+		})
+	})
+
+	it('add element to head button should adding elements one by one to the head', () => {
+		cy.get('@elemInput').type('new').should('have.value', 'new');
+
+		cy.get('@addHeadBtn').click();
+		cy.get('[class^=button_loader]').should('be.exist');
+
+		cy.get('[class^=circle_content]').each((item, index) => {
+			cy.wrap(item).within(() => {
+				if (index === 0) {
+					cy.get('[class*=circle_small]')
+						.should('have.css', 'border', '4px solid rgb(210, 82, 225)')
+						.contains('new')
+				}
+			});
+		});
+
+		cy.tick(500);
+
+		cy.get('[class^=circle_content]').each((item, index) => {
+			cy.wrap(item).within(() => {
+				if (index === 0) {
+					cy.get('[class*=circle_circle]')
+						.should('have.css', 'border', '4px solid rgb(127, 224, 81)')
+						.contains('new');
+					cy.get('[class*=circle_index]').contains(`${index}`)
+					cy.get('[class*=circle_head]').contains('head')
+					cy.get('[class*=circle_tail]').should('be.empty')
+				}
+			});
+		});
+
+		cy.tick(500);
+
+		cy.get('[class^=circle_content]').each((item, index) => {
+			cy.wrap(item).within(() => {
+				if (index === 0) {
+					cy.get('[class*=circle_circle]')
+						.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
+						.contains('new');
+					cy.get('[class*=circle_index]').contains(`${index}`)
+					cy.get('[class*=circle_head]').contains('head')
+					cy.get('[class*=circle_tail]').should('be.empty')
+				}
+			});
+		});
+	});
 })
 
 export {}
