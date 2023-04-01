@@ -140,9 +140,11 @@ export const ListPage: React.FC = () => {
 		await delay(DELAY_IN_MS);
 		resultArr[Number(indexInputValue)].state = ElementStates.Default;
 		setVisualArr(resultArr);
+		setNewIndex(undefined);
 	}
 
 	const delByIndex = async () => {
+		setIsDelByIndex(true);
 		setIsAllLoading(true);
 		clearInput('index-input');
 
@@ -158,13 +160,15 @@ export const ListPage: React.FC = () => {
 		setTempElementValue(deleteArr[Number(indexInputValue)].value);
 		deleteArr[Number(indexInputValue)].value = '';
 
-		setIsDelByIndex(true);
+		await delay(SHORT_DELAY_IN_MS);
 		deleteArr[Number(indexInputValue)].state = ElementStates.Default;
 		setNewIndex(Number(indexInputValue));
-
-		await delay(DELAY_IN_MS);
 		list.removeByIndex(Number(indexInputValue));
+
+		await delay(SHORT_DELAY_IN_MS);
 		setVisualArr(list.toArray());
+		setTempElementValue('');
+		setNewIndex(undefined);
 		setIsDelByIndex(false);
 	}
 
