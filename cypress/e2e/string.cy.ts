@@ -1,5 +1,8 @@
 /// <reference types="cypress" />
 
+import {BUTTON_LOADER, CIRCLE_CIRCLE, INPUT} from "../../src/constants/selectors";
+import {CHANGING_COLOR, DEFAULT_COLOR, MODIFIED_COLOR} from "../../src/constants/colors";
+
 describe('string page', () => {
 	beforeEach(() => {
 		cy.visit('/recursion');
@@ -8,48 +11,48 @@ describe('string page', () => {
 	});
 
 	it('button should be switch disabled state correctly depends on input value ', () => {
-		cy.get('input').should('have.value', '');
+		cy.get(INPUT).should('have.value', '');
 		cy.get('@reverseBtn').should('be.disabled')
 
-		cy.get('input').type('test')
+		cy.get(INPUT).type('test')
 		cy.get('@reverseBtn').should('be.enabled')
 	});
 
 	it('should be reverse string correctly with loader on button and disabled input trough reversing', () => {
-		cy.get('input').type('test').should('have.value', 'test');
+		cy.get(INPUT).type('test').should('have.value', 'test');
 
 		cy.get('@reverseBtn').click();
-		cy.get('[class^=button_loader]').should('be.exist');
+		cy.get(BUTTON_LOADER).should('be.exist');
 
-		cy.get('input').should('be.disabled');
+		cy.get(INPUT).should('be.disabled');
 
-		cy.get("[class^=circle_circle]").each((item, index) => {
-			if (index === 0) cy.wrap(item).should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('t');
-			if (index === 1) cy.wrap(item).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('e');
-			if (index === 2) cy.wrap(item).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('s');
-			if (index === 3) cy.wrap(item).should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('t');
+		cy.get(CIRCLE_CIRCLE).each((item, index) => {
+			if (index === 0) cy.wrap(item).should('have.css', 'border', CHANGING_COLOR).contains('t');
+			if (index === 1) cy.wrap(item).should('have.css', 'border', DEFAULT_COLOR).contains('e');
+			if (index === 2) cy.wrap(item).should('have.css', 'border', DEFAULT_COLOR).contains('s');
+			if (index === 3) cy.wrap(item).should('have.css', 'border', CHANGING_COLOR).contains('t');
 		})
 
 		cy.tick(1000);
 
-		cy.get("[class^=circle_circle]").each((item, index) => {
-			if (index === 0) cy.wrap(item).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('t');
-			if (index === 1) cy.wrap(item).should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('e');
-			if (index === 2) cy.wrap(item).should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('s');
-			if (index === 3) cy.wrap(item).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('t');
+		cy.get(CIRCLE_CIRCLE).each((item, index) => {
+			if (index === 0) cy.wrap(item).should('have.css', 'border', MODIFIED_COLOR).contains('t');
+			if (index === 1) cy.wrap(item).should('have.css', 'border', CHANGING_COLOR).contains('e');
+			if (index === 2) cy.wrap(item).should('have.css', 'border', CHANGING_COLOR).contains('s');
+			if (index === 3) cy.wrap(item).should('have.css', 'border', MODIFIED_COLOR).contains('t');
 		})
 
 		cy.tick(1000);
 
-		cy.get("[class^=circle_circle]").each((item, index) => {
-			if (index === 0) cy.wrap(item).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('t');
-			if (index === 1) cy.wrap(item).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('s');
-			if (index === 2) cy.wrap(item).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('e');
-			if (index === 3) cy.wrap(item).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('t');
+		cy.get(CIRCLE_CIRCLE).each((item, index) => {
+			if (index === 0) cy.wrap(item).should('have.css', 'border', MODIFIED_COLOR).contains('t');
+			if (index === 1) cy.wrap(item).should('have.css', 'border', MODIFIED_COLOR).contains('s');
+			if (index === 2) cy.wrap(item).should('have.css', 'border', MODIFIED_COLOR).contains('e');
+			if (index === 3) cy.wrap(item).should('have.css', 'border', MODIFIED_COLOR).contains('t');
 		})
 
-		cy.get('[class^=button_loader]').should('not.exist');
-		cy.get('input').should('be.enabled');
+		cy.get(BUTTON_LOADER).should('not.exist');
+		cy.get(INPUT).should('be.enabled');
 	})
 })
 

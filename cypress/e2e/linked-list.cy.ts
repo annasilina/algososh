@@ -1,5 +1,19 @@
 /// <reference types="cypress" />
 
+import {CHANGING_COLOR, DEFAULT_COLOR, MODIFIED_COLOR} from "../../src/constants/colors";
+import {
+	BUTTON_LOADER,
+	CIRCLE_CIRCLE,
+	CIRCLE_CONTENT,
+	CIRCLE_DEFAULT,
+	CIRCLE_HEAD,
+	CIRCLE_INDEX,
+	CIRCLE_LETTER,
+	CIRCLE_SMALL,
+	CIRCLE_TAIL,
+	INPUT
+} from "../../src/constants/selectors";
+
 describe('linked list page', () => {
 	beforeEach(() => {
 		cy.visit('/list');
@@ -17,7 +31,7 @@ describe('linked list page', () => {
 	});
 
 	it('add element button should be switch disabled state correctly depends on element input value', () => {
-		cy.get('input').each((item) => {
+		cy.get(INPUT).each((item) => {
 			cy.wrap(item).should('have.value', '');
 		})
 		cy.get('@addHeadBtn').should('be.disabled');
@@ -25,7 +39,7 @@ describe('linked list page', () => {
 		cy.get('@addIndBtn').should('be.disabled');
 		cy.get('@delIndBtn').should('be.disabled');
 
-		cy.get('input').each((item) => {
+		cy.get(INPUT).each((item) => {
 			cy.wrap(item).type('1').should('have.value', '1');
 		})
 		cy.get('@addHeadBtn').should('be.enabled');
@@ -36,45 +50,45 @@ describe('linked list page', () => {
 
 	it('default list should be rendered correctly', () => {
 		cy
-			.get('[class^=circle_content]').each((item, index) => {
+			.get(CIRCLE_CONTENT).each((item, index) => {
 			if (index === 0)
 				cy.wrap(item).within(() => {
-					cy.get('[class^=circle_circle]')
-						.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
+					cy.get(CIRCLE_CIRCLE)
+						.should('have.css', 'border', DEFAULT_COLOR)
 						.contains('0');
-					cy.get('[class*=circle_index]').contains(`${index}`)
-					cy.get('[class*=circle_head]').contains('head')
-					cy.get('[class*=circle_tail]').should('be.empty')
+					cy.get(CIRCLE_INDEX).contains(`${index}`)
+					cy.get(CIRCLE_HEAD).contains('head')
+					cy.get(CIRCLE_TAIL).should('be.empty')
 				});
 
 			if (index === 1)
 				cy.wrap(item).within(() => {
-					cy.get('[class^=circle_circle]')
-						.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
+					cy.get(CIRCLE_CIRCLE)
+						.should('have.css', 'border', DEFAULT_COLOR)
 						.contains('34');
-					cy.get('[class*=circle_index]').contains(`${index}`)
-					cy.get('[class*=circle_head]').should('be.empty')
-					cy.get('[class*=circle_tail]').should('be.empty')
+					cy.get(CIRCLE_INDEX).contains(`${index}`)
+					cy.get(CIRCLE_HEAD).should('be.empty')
+					cy.get(CIRCLE_TAIL).should('be.empty')
 				});
 
 			if (index === 2)
 				cy.wrap(item).within(() => {
-					cy.get('[class^=circle_circle]')
-						.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
+					cy.get(CIRCLE_CIRCLE)
+						.should('have.css', 'border', DEFAULT_COLOR)
 						.contains('8');
-					cy.get('[class*=circle_index]').contains(`${index}`)
-					cy.get('[class*=circle_head]').should('be.empty')
-					cy.get('[class*=circle_tail]').should('be.empty')
+					cy.get(CIRCLE_INDEX).contains(`${index}`)
+					cy.get(CIRCLE_HEAD).should('be.empty')
+					cy.get(CIRCLE_TAIL).should('be.empty')
 				});
 
 			if (index === 3)
 				cy.wrap(item).within(() => {
-					cy.get('[class^=circle_circle]')
-						.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
+					cy.get(CIRCLE_CIRCLE)
+						.should('have.css', 'border', DEFAULT_COLOR)
 						.contains('1');
-					cy.get('[class*=circle_index]').contains(`${index}`)
-					cy.get('[class*=circle_head]').should('be.empty')
-					cy.get('[class*=circle_tail]').contains('tail')
+					cy.get(CIRCLE_INDEX).contains(`${index}`)
+					cy.get(CIRCLE_HEAD).should('be.empty')
+					cy.get(CIRCLE_TAIL).contains('tail')
 				});
 		})
 	})
@@ -83,13 +97,13 @@ describe('linked list page', () => {
 		cy.get('@elemInput').type('new').should('have.value', 'new');
 
 		cy.get('@addHeadBtn').click();
-		cy.get('[class^=button_loader]').should('be.exist');
+		cy.get(BUTTON_LOADER).should('be.exist');
 
-		cy.get('[class^=circle_content]').each((item, index) => {
+		cy.get(CIRCLE_CONTENT).each((item, index) => {
 			cy.wrap(item).within(() => {
 				if (index === 0) {
-					cy.get('[class*=circle_small]')
-						.should('have.css', 'border', '4px solid rgb(210, 82, 225)')
+					cy.get(CIRCLE_SMALL)
+						.should('have.css', 'border', CHANGING_COLOR)
 						.contains('new')
 				}
 			});
@@ -97,32 +111,32 @@ describe('linked list page', () => {
 
 		cy.tick(500);
 
-		cy.get('[class^=circle_content]').each((item, index) => {
+		cy.get(CIRCLE_CONTENT).each((item, index) => {
 			cy.wrap(item).within(() => {
 				if (index === 0) {
-					cy.get('[class*=circle_circle]')
-						.should('have.css', 'border', '4px solid rgb(127, 224, 81)')
+					cy.get(CIRCLE_CIRCLE)
+						.should('have.css', 'border', MODIFIED_COLOR)
 						.contains('new');
-					cy.get('[class*=circle_index]').contains(`${index}`)
-					cy.get('[class*=circle_head]').contains('head')
-					cy.get('[class*=circle_tail]').should('be.empty')
+					cy.get(CIRCLE_INDEX).contains(`${index}`)
+					cy.get(CIRCLE_HEAD).contains('head')
+					cy.get(CIRCLE_TAIL).should('be.empty')
 				}
 			});
 		});
 
 		cy.tick(500);
 
-		cy.get('[class^=circle_content]')
+		cy.get(CIRCLE_CONTENT)
 			.should('have.length', 5)
 			.each((item, index) => {
 				cy.wrap(item).within(() => {
 					if (index === 0) {
-						cy.get('[class*=circle_circle]')
-							.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
+						cy.get(CIRCLE_CIRCLE)
+							.should('have.css', 'border', DEFAULT_COLOR)
 							.contains('new');
-						cy.get('[class*=circle_index]').contains(`${index}`)
-						cy.get('[class*=circle_head]').contains('head')
-						cy.get('[class*=circle_tail]').should('be.empty')
+						cy.get(CIRCLE_INDEX).contains(`${index}`)
+						cy.get(CIRCLE_HEAD).contains('head')
+						cy.get(CIRCLE_TAIL).should('be.empty')
 					}
 				});
 			});
@@ -132,38 +146,38 @@ describe('linked list page', () => {
 		cy.get('@elemInput').type('new').should('have.value', 'new');
 
 		cy.get('@addTailBtn').click();
-		cy.get('[class^=button_loader]').should('be.exist');
+		cy.get(BUTTON_LOADER).should('be.exist');
 
-		cy.get('[class^=circle_content]')
+		cy.get(CIRCLE_CONTENT)
 			.last().within(() => {
-			cy.get('[class*=circle_small]')
-				.should('have.css', 'border', '4px solid rgb(210, 82, 225)')
+			cy.get(CIRCLE_SMALL)
+				.should('have.css', 'border', CHANGING_COLOR)
 				.contains('new')
 		});
 
 		cy.tick(500);
 
-		cy.get('[class^=circle_content]')
+		cy.get(CIRCLE_CONTENT)
 			.last().within(() => {
-			cy.get('[class*=circle_circle]')
-				.should('have.css', 'border', '4px solid rgb(127, 224, 81)')
+			cy.get(CIRCLE_CIRCLE)
+				.should('have.css', 'border', MODIFIED_COLOR)
 				.contains('new');
-			cy.get('[class*=circle_index]').contains('4');
-			cy.get('[class*=circle_head]').should('be.empty');
-			cy.get('[class*=circle_tail]').contains('tail');
+			cy.get(CIRCLE_INDEX).contains('4');
+			cy.get(CIRCLE_HEAD).should('be.empty');
+			cy.get(CIRCLE_TAIL).contains('tail');
 		});
 
 		cy.tick(500);
 
-		cy.get('[class^=circle_content]')
+		cy.get(CIRCLE_CONTENT)
 			.should('have.length', 5)
 			.last().within(() => {
-			cy.get('[class*=circle_circle]')
-				.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
+			cy.get(CIRCLE_CIRCLE)
+				.should('have.css', 'border', DEFAULT_COLOR)
 				.contains('new');
-			cy.get('[class*=circle_index]').contains('4');
-			cy.get('[class*=circle_head]').should('be.empty');
-			cy.get('[class*=circle_tail]').contains('tail');
+			cy.get(CIRCLE_INDEX).contains('4');
+			cy.get(CIRCLE_HEAD).should('be.empty');
+			cy.get(CIRCLE_TAIL).contains('tail');
 		});
 	});
 
@@ -172,13 +186,13 @@ describe('linked list page', () => {
 		cy.get('@indInput').type('1').should('have.value', '1');
 
 		cy.get('@addIndBtn').click();
-		cy.get('[class^=button_loader]').should('be.exist');
+		cy.get(BUTTON_LOADER).should('be.exist');
 
-		cy.get('[class^=circle_content]').each((item, index) => {
+		cy.get(CIRCLE_CONTENT).each((item, index) => {
 			cy.wrap(item).within(() => {
 				if (index === 0) {
-					cy.get('[class*=circle_small]')
-						.should('have.css', 'border', '4px solid rgb(210, 82, 225)')
+					cy.get(CIRCLE_SMALL)
+						.should('have.css', 'border', CHANGING_COLOR)
 						.contains('new')
 				}
 			});
@@ -186,11 +200,11 @@ describe('linked list page', () => {
 
 		cy.tick(1000);
 
-		cy.get('[class^=circle_content]').each((item, index) => {
+		cy.get(CIRCLE_CONTENT).each((item, index) => {
 			cy.wrap(item).within(() => {
 				if (index === 1) {
-					cy.get('[class*=circle_small]')
-						.should('have.css', 'border', '4px solid rgb(210, 82, 225)')
+					cy.get(CIRCLE_SMALL)
+						.should('have.css', 'border', CHANGING_COLOR)
 						.contains('new')
 				}
 			});
@@ -198,32 +212,32 @@ describe('linked list page', () => {
 
 		cy.tick(1000);
 
-		cy.get('[class^=circle_content]').each((item, index) => {
+		cy.get(CIRCLE_CONTENT).each((item, index) => {
 			cy.wrap(item).within(() => {
 				if (index === 1) {
-					cy.get('[class*=circle_circle]')
-						.should('have.css', 'border', '4px solid rgb(127, 224, 81)')
+					cy.get(CIRCLE_CIRCLE)
+						.should('have.css', 'border', MODIFIED_COLOR)
 						.contains('new');
-					cy.get('[class*=circle_index]').contains(`${index}`);
-					cy.get('[class*=circle_head]').should('be.empty');
-					cy.get('[class*=circle_tail]').should('be.empty');
+					cy.get(CIRCLE_INDEX).contains(`${index}`);
+					cy.get(CIRCLE_HEAD).should('be.empty');
+					cy.get(CIRCLE_TAIL).should('be.empty');
 				}
 			});
 		});
 
 		cy.tick(1000);
 
-		cy.get('[class^=circle_content]')
+		cy.get(CIRCLE_CONTENT)
 			.should('have.length', 5)
 			.each((item, index) => {
 				cy.wrap(item).within(() => {
 					if (index === 1) {
-						cy.get('[class*=circle_circle]')
-							.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
+						cy.get(CIRCLE_CIRCLE)
+							.should('have.css', 'border', DEFAULT_COLOR)
 							.contains('new');
-						cy.get('[class*=circle_index]').contains(`${index}`);
-						cy.get('[class*=circle_head]').should('be.empty');
-						cy.get('[class*=circle_tail]').should('be.empty');
+						cy.get(CIRCLE_INDEX).contains(`${index}`);
+						cy.get(CIRCLE_HEAD).should('be.empty');
+						cy.get(CIRCLE_TAIL).should('be.empty');
 					}
 				});
 			});
@@ -231,13 +245,13 @@ describe('linked list page', () => {
 
 	it('delete element from head should work correctly', () => {
 		cy.get('@delHeadBtn').click();
-		cy.get('[class^=button_loader]').should('be.exist');
+		cy.get(BUTTON_LOADER).should('be.exist');
 
-		cy.get('[class^=circle_content]').each((item, index) => {
+		cy.get(CIRCLE_CONTENT).each((item, index) => {
 			cy.wrap(item).within(() => {
 				if (index === 0) {
-					cy.get('[class*=circle_small]')
-						.should('have.css', 'border', '4px solid rgb(210, 82, 225)')
+					cy.get(CIRCLE_SMALL)
+						.should('have.css', 'border', CHANGING_COLOR)
 						.contains('0')
 				}
 			});
@@ -245,17 +259,17 @@ describe('linked list page', () => {
 
 		cy.tick(500);
 
-		cy.get('[class^=circle_content]')
+		cy.get(CIRCLE_CONTENT)
 			.should('have.length', 3)
 			.each((item, index) => {
 				cy.wrap(item).within(() => {
 					if (index === 0) {
-						cy.get('[class*=circle_circle]')
-							.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
+						cy.get(CIRCLE_CIRCLE)
+							.should('have.css', 'border', DEFAULT_COLOR)
 							.contains('34')
-						cy.get('[class*=circle_index]').contains(`${index}`);
-						cy.get('[class*=circle_head]').contains('head');
-						cy.get('[class*=circle_tail]').should('be.empty');
+						cy.get(CIRCLE_INDEX).contains(`${index}`);
+						cy.get(CIRCLE_HEAD).contains('head');
+						cy.get(CIRCLE_TAIL).should('be.empty');
 					}
 				});
 			});
@@ -263,15 +277,15 @@ describe('linked list page', () => {
 
 	it('delete element from tail should work correctly', () => {
 		cy.get('@delTailBtn').click();
-		cy.get('[class^=button_loader]').should('be.exist');
+		cy.get(BUTTON_LOADER).should('be.exist');
 
-		cy.get('[class^=circle_content]')
+		cy.get(CIRCLE_CONTENT)
 			.each((item, index) => {
 				cy.wrap(item).within(() => {
 					if (index === 3) {
-						cy.get('[class*=circle_default]').should('not.have.text')
-						cy.get('[class*=circle_small]')
-							.should('have.css', 'border', '4px solid rgb(210, 82, 225)')
+						cy.get(CIRCLE_DEFAULT).should('not.have.text')
+						cy.get(CIRCLE_SMALL)
+							.should('have.css', 'border', CHANGING_COLOR)
 							.contains('1')
 					}
 				})
@@ -279,17 +293,17 @@ describe('linked list page', () => {
 
 		cy.tick(500);
 
-		cy.get('[class^=circle_content]')
+		cy.get(CIRCLE_CONTENT)
 			.should('have.length', 3)
 			.each((item, index) => {
 				cy.wrap(item).within(() => {
 					if (index === 2) {
-						cy.get('[class*=circle_circle]')
-							.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
+						cy.get(CIRCLE_CIRCLE)
+							.should('have.css', 'border', DEFAULT_COLOR)
 							.contains('8')
-						cy.get('[class*=circle_index]').contains(`${index}`);
-						cy.get('[class*=circle_head]').should('be.empty');
-						cy.get('[class*=circle_tail]').contains('tail');
+						cy.get(CIRCLE_INDEX).contains(`${index}`);
+						cy.get(CIRCLE_HEAD).should('be.empty');
+						cy.get(CIRCLE_TAIL).contains('tail');
 					}
 				});
 			});
@@ -299,53 +313,53 @@ describe('linked list page', () => {
 		cy.get('@indInput').type('1').should('have.value', '1');
 
 		cy.get('@delIndBtn').click();
-		cy.get('[class^=button_loader]').should('be.exist');
+		cy.get(BUTTON_LOADER).should('be.exist');
 
-		cy.get('[class^=circle_content]').each((item, index) => {
+		cy.get(CIRCLE_CONTENT).each((item, index) => {
 			cy.wrap(item).within(() => {
 				if (index === 0) {
 					cy.tick(500);
-					cy.get('[class*=circle_circle]')
-						.should('have.css', 'border', '4px solid rgb(210, 82, 225)')
+					cy.get(CIRCLE_CIRCLE)
+						.should('have.css', 'border', CHANGING_COLOR)
 				}
 			});
 		})
 
-		cy.get('[class^=circle_content]').each((item, index) => {
+		cy.get(CIRCLE_CONTENT).each((item, index) => {
 			cy.wrap(item).within(() => {
 				if (index === 1) {
 					cy.tick(500);
-					cy.get('[class*=circle_circle]')
-						.should('have.css', 'border', '4px solid rgb(210, 82, 225)')
+					cy.get(CIRCLE_CIRCLE)
+						.should('have.css', 'border', CHANGING_COLOR)
 				}
 			});
 		})
 
 		cy.tick(500);
 
-		cy.get('[class^=circle_content]').each((item, index) => {
+		cy.get(CIRCLE_CONTENT).each((item, index) => {
 			cy.wrap(item).within(() => {
 				if (index === 1) {
 					cy.tick(500);
-					cy.get('[class*=circle_letter]')
+					cy.get(CIRCLE_LETTER)
 						.should('be.empty')
-					cy.get('[class*=circle_small]')
-						.should('have.css', 'border', '4px solid rgb(210, 82, 225)')
+					cy.get(CIRCLE_SMALL)
+						.should('have.css', 'border', CHANGING_COLOR)
 				}
 			});
 		})
 
 		cy.tick(500);
 
-		cy.get('[class^=circle_content]')
+		cy.get(CIRCLE_CONTENT)
 			.should('have.length', 3)
 			.each((item, index) => {
 				cy.wrap(item).within(() => {
 					if (index === 1) {
-						cy.get('[class*=circle_letter]')
+						cy.get(CIRCLE_LETTER)
 							.contains('8');
 					}
-					if (index === 2) cy.get('[class*=circle_tail]').contains('tail');
+					if (index === 2) cy.get(CIRCLE_TAIL).contains('tail');
 				});
 			});
 	})

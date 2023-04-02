@@ -1,5 +1,4 @@
 import {reversString} from './reversString';
-// import renderer from 'react-test-renderer';
 
 describe('reversString', () => {
 	it('should be revers correctly with even count of symbols', async () => {

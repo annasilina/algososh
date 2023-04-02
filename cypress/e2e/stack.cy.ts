@@ -1,5 +1,8 @@
 /// <reference types="cypress" />
 
+import {CHANGING_COLOR, DEFAULT_COLOR} from "../../src/constants/colors";
+import {BUTTON_LOADER, CIRCLE_CIRCLE, CIRCLE_HEAD, CIRCLE_INDEX, INPUT} from "../../src/constants/selectors";
+
 describe('stack page', () => {
 	beforeEach(() => {
 		cy.visit('/stack');
@@ -10,147 +13,147 @@ describe('stack page', () => {
 	})
 
 	it('add element button should be switch disabled state correctly depends on input value', () => {
-		cy.get('input').should('have.value', '');
+		cy.get(INPUT).should('have.value', '');
 		cy.get('@addButton').should('be.disabled')
 
-		cy.get('input').type('1')
+		cy.get(INPUT).type('1')
 		cy.get('@addButton').should('be.enabled')
 	});
 
 	it('add element button should adding elements one by one to the top', () => {
 		// adding first element
-		cy.get('input').type('1').should('have.value', '1');
+		cy.get(INPUT).type('1').should('have.value', '1');
 
 		cy.get('@addButton').click();
-		cy.get('[class^=button_loader]').should('be.exist');
+		cy.get(BUTTON_LOADER).should('be.exist');
 
 		cy.get('@delButton').should('be.disabled');
 		cy.get('@clearButton').should('be.disabled');
 
-		cy.get('input').should('be.disabled');
+		cy.get(INPUT).should('be.disabled');
 
 		// checking circles array through adding first element
 		cy
 			.get('[class^=circle_circle')
 			.should('have.length', '1')
 			.last()
-			.should('have.css', 'border', '4px solid rgb(210, 82, 225)')
-			.get('[class*=circle_index]').last().contains('0')
-			.get('[class*=circle_head]').last().contains('top');
+			.should('have.css', 'border', CHANGING_COLOR)
+			.get(CIRCLE_INDEX).last().contains('0')
+			.get(CIRCLE_HEAD).last().contains('top');
 
 		cy.tick(500);
 
 		// checking circles array after first element was added
 		cy
-			.get('[class^=circle_circle')
+			.get(CIRCLE_CIRCLE)
 			.should('have.length', 1)
 			.last()
-			.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
-			.get('[class*=circle_index]').last().contains('0')
-			.get('[class*=circle_head]').last().contains('top');
+			.should('have.css', 'border', DEFAULT_COLOR)
+			.get(CIRCLE_INDEX).last().contains('0')
+			.get(CIRCLE_HEAD).last().contains('top');
 
-		cy.get('[class^=button_loader]').should('not.exist');
+		cy.get(BUTTON_LOADER).should('not.exist');
 
 		cy.get('@delButton').should('be.enabled');
 		cy.get('@clearButton').should('be.enabled');
 
-		cy.get('input').should('be.enabled');
+		cy.get(INPUT).should('be.enabled');
 
 		// adding second element
-		cy.get('input').type('2').should('have.value', '2');
+		cy.get(INPUT).type('2').should('have.value', '2');
 
 		cy.get('@addButton').click();
-		cy.get('[class^=button_loader]').should('be.exist');
+		cy.get(BUTTON_LOADER).should('be.exist');
 		cy.get('@delButton').should('be.disabled');
 		cy.get('@clearButton').should('be.disabled');
 
-		cy.get('input').should('be.disabled');
+		cy.get(INPUT).should('be.disabled');
 
 		// checking circles array through adding second element
 		cy
-			.get('[class^=circle_circle')
+			.get(CIRCLE_CIRCLE)
 			.should('have.length', 2)
 			.last()
-			.should('have.css', 'border', '4px solid rgb(210, 82, 225)')
-			.get('[class*=circle_index]').last().contains('1')
-			.get('[class*=circle_head]').last().contains('top');
+			.should('have.css', 'border', CHANGING_COLOR)
+			.get(CIRCLE_INDEX).last().contains('1')
+			.get(CIRCLE_HEAD).last().contains('top');
 
 		cy.tick(500);
 
 		// checking circles array after second element was added
 		cy
-			.get('[class^=circle_circle')
+			.get(CIRCLE_CIRCLE)
 			.should('have.length', 2)
 			.last()
-			.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
-			.get('[class*=circle_index]').last().contains('1')
-			.get('[class*=circle_head]').last().contains('top');
+			.should('have.css', 'border', DEFAULT_COLOR)
+			.get(CIRCLE_INDEX).last().contains('1')
+			.get(CIRCLE_HEAD).last().contains('top');
 
-		cy.get('[class^=button_loader]').should('not.exist');
+		cy.get(BUTTON_LOADER).should('not.exist');
 
 		cy.get('@delButton').should('be.enabled');
 		cy.get('@clearButton').should('be.enabled');
 
-		cy.get('input').should('be.enabled');
+		cy.get(INPUT).should('be.enabled');
 
 		// adding third element
-		cy.get('input').type('3').should('have.value', '3');
+		cy.get(INPUT).type('3').should('have.value', '3');
 
 		cy.get('@addButton').click();
-		cy.get('[class^=button_loader]').should('be.exist');
+		cy.get(BUTTON_LOADER).should('be.exist');
 
 		cy.get('@delButton').should('be.disabled');
 		cy.get('@clearButton').should('be.disabled');
 
-		cy.get('input').should('be.disabled');
+		cy.get(INPUT).should('be.disabled');
 
 		// checking circles array through adding third element
 		cy
-			.get('[class^=circle_circle')
+			.get(CIRCLE_CIRCLE)
 			.should('have.length', 3)
 			.last()
-			.should('have.css', 'border', '4px solid rgb(210, 82, 225)')
-			.get('[class*=circle_index]').last().contains('2')
-			.get('[class*=circle_head]').last().contains('top');
+			.should('have.css', 'border', CHANGING_COLOR)
+			.get(CIRCLE_INDEX).last().contains('2')
+			.get(CIRCLE_HEAD).last().contains('top');
 
 		cy.tick(500);
 
 		// checking circles array after third element was added
 		cy
-			.get('[class^=circle_circle')
+			.get(CIRCLE_CIRCLE)
 			.should('have.length', 3)
 			.last()
-			.should('have.css', 'border', '4px solid rgb(0, 50, 255)')
-			.get('[class*=circle_index]').last().contains('2')
-			.get('[class*=circle_head]').last().contains('top');
+			.should('have.css', 'border', DEFAULT_COLOR)
+			.get(CIRCLE_INDEX).last().contains('2')
+			.get(CIRCLE_HEAD).last().contains('top');
 
-		cy.get('[class^=button_loader]').should('not.exist');
+		cy.get(BUTTON_LOADER).should('not.exist');
 
 		cy.get('@delButton').should('be.enabled');
 		cy.get('@clearButton').should('be.enabled');
 
-		cy.get('input').should('be.enabled');
+		cy.get(INPUT).should('be.enabled');
 	});
 
 	it('del element button should deleting one by one element from the top', () => {
 		// adding elements in stack
-		cy.get('input').type('1').should('have.value', '1');
+		cy.get(INPUT).type('1').should('have.value', '1');
 		cy.get('@addButton').click();
 
 		cy.tick(500);
 
-		cy.get('input').type('2').should('have.value', '2');
+		cy.get(INPUT).type('2').should('have.value', '2');
 		cy.get('@addButton').click();
 
 		cy.tick(500);
 
-		cy.get('input').type('3').should('have.value', '3');
+		cy.get(INPUT).type('3').should('have.value', '3');
 		cy.get('@addButton').click()
 
 		cy.tick(500);
 
 		// check circles array before deleting
-		cy.get('[class^=circle_circle]')
+		cy.get(CIRCLE_CIRCLE)
 			.should('have.length', 3)
 			.each((item, index) => {
 				if (index === 0) cy.wrap(item).contains('1')
@@ -162,123 +165,123 @@ describe('stack page', () => {
 		// delete first element from the top
 		cy.get('@delButton').click()
 
-		cy.get('[class^=button_loader]').should('be.exist');
+		cy.get(BUTTON_LOADER).should('be.exist');
 
 		cy.get('@addButton').should('be.disabled');
 		cy.get('@clearButton').should('be.disabled');
 
-		cy.get('input').should('be.disabled');
+		cy.get(INPUT).should('be.disabled');
 
 		// checking circles array through deleting first element from the top
-		cy.get('[class^=circle_circle]')
-			.last().should('have.css', 'border', '4px solid rgb(210, 82, 225)');
+		cy.get(CIRCLE_CIRCLE)
+			.last().should('have.css', 'border', CHANGING_COLOR);
 
 		cy.tick(500);
 
 		// check circles array after first element was deleted
-		cy.get('[class^=circle_circle]')
+		cy.get(CIRCLE_CIRCLE)
 			.should('have.length', 2)
 			.each((item, index) => {
 				if (index === 0) cy.wrap(item).contains('1')
 				if (index === 1) cy.wrap(item).contains('2')
 			});
 
-		cy.get('[class^=button_loader]').should('not.exist');
+		cy.get(BUTTON_LOADER).should('not.exist');
 
 		cy.get('@clearButton').should('be.enabled');
 
-		cy.get('input').should('be.enabled');
+		cy.get(INPUT).should('be.enabled');
 
 		// delete second element
 		cy.get('@delButton').click();
 
-		cy.get('[class^=button_loader]').should('be.exist');
+		cy.get(BUTTON_LOADER).should('be.exist');
 
 		cy.get('@addButton').should('be.disabled');
 		cy.get('@clearButton').should('be.disabled');
 
-		cy.get('input').should('be.disabled');
+		cy.get(INPUT).should('be.disabled');
 
 		// checking circles array through deleting second element from the top
-		cy.get('[class^=circle_circle]')
-			.last().should('have.css', 'border', '4px solid rgb(210, 82, 225)');
+		cy.get(CIRCLE_CIRCLE)
+			.last().should('have.css', 'border', CHANGING_COLOR);
 
 		cy.tick(500);
 
 		// check circles array after second element was deleted
-		cy.get('[class^=circle_circle]')
+		cy.get(CIRCLE_CIRCLE)
 			.should('have.length', 1)
 			.each((item, index) => {
 				if (index === 0) cy.wrap(item).contains('1')
 			});
 
-		cy.get('[class^=button_loader]').should('not.exist');
+		cy.get(BUTTON_LOADER).should('not.exist');
 
 		cy.get('@clearButton').should('be.enabled');
 
-		cy.get('input').should('be.enabled');
+		cy.get(INPUT).should('be.enabled');
 
 		// delete third element
 		cy.get('@delButton').click();
 
-		cy.get('[class^=button_loader]').should('be.exist');
+		cy.get(BUTTON_LOADER).should('be.exist');
 
 		cy.get('@addButton').should('be.disabled');
 		cy.get('@clearButton').should('be.disabled');
 
-		cy.get('input').should('be.disabled');
+		cy.get(INPUT).should('be.disabled');
 
 		// checking circles array through deleting second element from the top
-		cy.get('[class^=circle_circle]')
-			.last().should('have.css', 'border', '4px solid rgb(210, 82, 225)');
+		cy.get(CIRCLE_CIRCLE)
+			.last().should('have.css', 'border', CHANGING_COLOR);
 
 		cy.tick(500);
 
 		// checking circles array after third element was deleted
-		cy.get('[class^=circle_circle]')
+		cy.get(CIRCLE_CIRCLE)
 			.should('have.length', 0);
 
-		cy.get('[class^=button_loader]').should('not.exist');
+		cy.get(BUTTON_LOADER).should('not.exist');
 
-		cy.get('input').should('be.enabled');
+		cy.get(INPUT).should('be.enabled');
 	});
 
 	it('clear stack button should clear all stack elements at one time', () => {
-		cy.get('input').type('1').should('have.value', '1');
+		cy.get(INPUT).type('1').should('have.value', '1');
 		cy.get('@addButton').click();
 
 		cy.tick(500);
 
-		cy.get('input').type('2').should('have.value', '2');
+		cy.get(INPUT).type('2').should('have.value', '2');
 		cy.get('@addButton').click();
 
 		cy.tick(500);
 
-		cy.get('input').type('3').should('have.value', '3');
+		cy.get(INPUT).type('3').should('have.value', '3');
 		cy.get('@addButton').click();
 
 		cy.tick(500);
 
 		cy.get('@clearButton').click();
 
-		cy.get('[class^=button_loader]').should('be.exist');
+		cy.get(BUTTON_LOADER).should('be.exist');
 
 		cy.get('@addButton').should('be.disabled');
 		cy.get('@delButton').should('be.disabled');
 
-		cy.get('input').should('be.disabled');
+		cy.get(INPUT).should('be.disabled');
 
 		cy.tick(500);
 
-		cy.get('[class^=circle_circle]').should('have.length', 0);
+		cy.get(CIRCLE_CIRCLE).should('have.length', 0);
 
-		cy.get('[class^=button_loader]').should('not.exist');
+		cy.get(BUTTON_LOADER).should('not.exist');
 
 		cy.get('@addButton').should('be.disabled');
 		cy.get('@delButton').should('be.disabled');
 		cy.get('@clearButton').should('be.disabled');
 
-		cy.get('input').should('be.enabled');
+		cy.get(INPUT).should('be.enabled');
 	});
 });
 

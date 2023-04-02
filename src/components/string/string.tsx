@@ -5,9 +5,6 @@ import {Button} from "../ui/button/button";
 import {Circle} from "../ui/circle/circle";
 import styles from "./string.module.css";
 import {ElementStates} from "../../types/element-states";
-// import {delay} from "../../utils/delay";
-// import {swap} from "../../utils/swap";
-// import {DELAY_IN_MS} from "../../constants/delays";
 import {clearInput} from "../../utils/clearInput";
 import {reversString} from "./reversString";
 
