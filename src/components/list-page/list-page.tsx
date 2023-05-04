@@ -1,6 +1,7 @@
 import React, {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {SolutionLayout} from "../ui/solution-layout/solution-layout";
-import {LinkedList, TListItem} from "./LinkedList";
+import {LinkedList} from "./LinkedList";
+import {TItem} from "../../types/TItem";
 import styles from "./list.module.css";
 import {Input} from "../ui/input/input";
 import {Button} from "../ui/button/button";
@@ -17,7 +18,7 @@ export const ListPage: React.FC = () => {
 			new LinkedList<string>(['0', '34', '8', '1'])
 		, []);
 
-	const [visualArr, setVisualArr] = useState<TListItem<string>[]>(list.toArray());
+	const [visualArr, setVisualArr] = useState<TItem<string>[]>(list.toArray());
 	const [elementInputValue, setElementInputValue] = useState<string>('');
 	const [indexInputValue, setIndexInputValue] = useState<number | ''>('');
 	const [isAddToHead, setIsAddToHead] = useState<boolean>(false);
@@ -139,9 +140,11 @@ export const ListPage: React.FC = () => {
 		await delay(DELAY_IN_MS);
 		resultArr[Number(indexInputValue)].state = ElementStates.Default;
 		setVisualArr(resultArr);
+		setNewIndex(undefined);
 	}
 
 	const delByIndex = async () => {
+		setIsDelByIndex(true);
 		setIsAllLoading(true);
 		clearInput('index-input');
 
@@ -157,13 +160,15 @@ export const ListPage: React.FC = () => {
 		setTempElementValue(deleteArr[Number(indexInputValue)].value);
 		deleteArr[Number(indexInputValue)].value = '';
 
-		setIsDelByIndex(true);
+		await delay(SHORT_DELAY_IN_MS);
 		deleteArr[Number(indexInputValue)].state = ElementStates.Default;
 		setNewIndex(Number(indexInputValue));
-
-		await delay(DELAY_IN_MS);
 		list.removeByIndex(Number(indexInputValue));
+
+		await delay(SHORT_DELAY_IN_MS);
 		setVisualArr(list.toArray());
+		setTempElementValue('');
+		setNewIndex(undefined);
 		setIsDelByIndex(false);
 	}
 
@@ -189,6 +194,7 @@ export const ListPage: React.FC = () => {
 					<Button
 						text='Добавить в head'
 						type='button'
+						id='add-head-btn'
 						onClick={() =>
 							addToHead()
 								.then(() => {
@@ -203,6 +209,7 @@ export const ListPage: React.FC = () => {
 					<Button
 						text='Добавить в tail'
 						type='button'
+						id='add-tail-btn'
 						onClick={() =>
 							addToTail()
 								.then(() => {
@@ -217,6 +224,7 @@ export const ListPage: React.FC = () => {
 					<Button
 						text='Удалить из head'
 						type='button'
+						id='del-head-btn'
 						onClick={() =>
 							delFromHead()
 								.then(() => setIsAllLoading(false))}
@@ -228,6 +236,7 @@ export const ListPage: React.FC = () => {
 					<Button
 						text='Удалить из tail'
 						type='button'
+						id='del-tail-btn'
 						onClick={() =>
 							delFromTail()
 								.then(() => setIsAllLoading(false))}
@@ -249,6 +258,7 @@ export const ListPage: React.FC = () => {
 					/>
 					<Button
 						text='Добавить по индексу'
+						id='add-index-btn'
 						extraClass={styles.btnBig}
 						type='button'
 						onClick={() =>
@@ -264,6 +274,7 @@ export const ListPage: React.FC = () => {
 					</Button>
 					<Button
 						text='Удалить по индексу'
+						id='del-index-btn'
 						extraClass={styles.btnBig}
 						type='button'
 						onClick={() =>

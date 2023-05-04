@@ -98,6 +98,7 @@ export const QueuePage: React.FC = () => {
 						disabled={isLoading || inputValue === '' || queue.getTail() >= 7}
 						isLoader={adding}
 						type='button'
+						id='add-btn'
 						onClick={() =>
 							handleAddButton()
 								.then(() => {
@@ -112,6 +113,7 @@ export const QueuePage: React.FC = () => {
 						disabled={isLoading || queue.isEmpty()}
 						isLoader={deleting}
 						type='button'
+						id='delete-btn'
 						onClick={() =>
 							handleDeleteButton()
 								.then(() => {
@@ -126,6 +128,7 @@ export const QueuePage: React.FC = () => {
 					disabled={isLoading || queue.isEmpty()}
 					isLoader={clearing}
 					type='button'
+					id='clear-btn'
 					onClick={() => {
 						handleClearButton()
 							.then(() => {

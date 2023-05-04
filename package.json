@@ -18,8 +18,9 @@
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject"
+		"test": "react-scripts test --coverage --no-cache",
+		"eject": "react-scripts eject",
+		"cypress:open": "cypress open"
 	},
 	"eslintConfig": {
 		"extends": [
@@ -45,7 +46,8 @@
 		"@testing-library/user-event": "^13.5.0",
 		"@types/jest": "^27.4.0",
 		"@types/react-router-dom": "^5.3.3",
-		"cypress": "^12.8.1",
+		"cypress": "^12.9.0",
+		"eslint-plugin-cypress": "^2.13.2",
 		"jest": "^27.5.1",
 		"react-test-renderer": "^17.0.2"
 	}

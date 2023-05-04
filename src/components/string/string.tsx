@@ -5,10 +5,8 @@ import {Button} from "../ui/button/button";
 import {Circle} from "../ui/circle/circle";
 import styles from "./string.module.css";
 import {ElementStates} from "../../types/element-states";
-import {delay} from "../../utils/delay";
-import {swap} from "../../utils/swap";
-import {DELAY_IN_MS} from "../../constants/delays";
 import {clearInput} from "../../utils/clearInput";
+import {reversString} from "./reversString";
 
 export const StringComponent: React.FC = () => {
 	const [originalString, setOriginalString] = useState<string>('');
@@ -22,7 +20,7 @@ export const StringComponent: React.FC = () => {
 		setSortedIndexes([]);
 		setNextIndexes([]);
 		setArrFromString(originalString.split(''));
-		reversString(originalString).then(() => {
+		reversString(originalString, setNextIndexes, setArrFromString, setSortedIndexes).then(() => {
 			clearInput('input', setOriginalString);
 			setIsReversing(false);
 		});
@@ -30,23 +28,6 @@ export const StringComponent: React.FC = () => {
 
 	const handlerInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
 		setOriginalString(evt.target.value);
-	}
-
-	const reversString = async (originalString: string) => {
-		let reversedArr = originalString.split('');
-		let sorted: number[] = [];
-		let start = 0;
-		let end = reversedArr.length - 1;
-		while (start <= end) {
-			setNextIndexes([start, end]);
-			await delay(DELAY_IN_MS);
-			swap(reversedArr, start, end);
-			setArrFromString(reversedArr);
-			sorted.push(start, end);
-			setSortedIndexes(sorted);
-			start++;
-			end--;
-		}
 	}
 
 	return (

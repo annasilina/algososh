@@ -1,14 +1,8 @@
-import {ElementStates} from "../types/element-states";
-import {TItem} from "../types/TItem";
-
-export const randomArr = (minLen: number = 3, maxLen: number = 17,): Array<TItem> => {
+export const randomArr = (minLen: number = 3, maxLen: number = 17,): Array<number> => {
 	const result = [];
 	const length = Math.floor(Math.random() * (maxLen - minLen) + minLen);
 	for (let i = 0; i < length; i++) {
-		result.push({
-			value: Math.floor(Math.random() * 100),
-			state: ElementStates.Default
-		});
+		result.push(Math.floor(Math.random() * 100));
 	}
 	return result;
 }
